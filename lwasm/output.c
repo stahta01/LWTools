@@ -44,6 +44,8 @@ void write_code_hex(asmstate_t *as, FILE *of);
 void write_code_srec(asmstate_t *as, FILE *of);
 void write_code_ihex(asmstate_t *as, FILE *of);
 void write_code_lwmod(asmstate_t *as, FILE *of);
+void write_code_dragon(asmstate_t *as, FILE *of);
+void write_code_abs(asmstate_t *as, FILE *of);
 
 // this prevents warnings about not using the return value of fwrite()
 // r++ prevents the "set but not used" warnings; should be optimized out
@@ -107,6 +109,14 @@ void do_output(asmstate_t *as)
 
 	case OUTPUT_LWMOD:
 		write_code_lwmod(as, of);
+		break;
+
+	case OUTPUT_DRAGON:
+		write_code_dragon(as, of);
+		break;
+
+	case OUTPUT_ABS:
+		write_code_abs(as, of);
 		break;
 
 	default:
@@ -1258,4 +1268,95 @@ void write_code_lwmod(asmstate_t *as, FILE *of)
 	// init stuff
 	if (initsize)
 		writebytes(initcode, initsize, 1, of);
+}
+
+void write_code_abs_calc(asmstate_t *as, unsigned int *start, unsigned int *length)
+{
+	line_t *cl;
+	unsigned int lowaddr = 65535;
+	unsigned int highaddr = 0;
+	char outbyte;
+	int outaddr, rc;
+
+	// if not specified, calculate
+	for (cl = as -> line_head; cl; cl = cl -> next)
+	{
+		do
+		{
+			rc = fetch_output_byte(cl, &outbyte, &outaddr);
+			if (rc)
+			{
+				if (outaddr < lowaddr)
+					lowaddr = outaddr;
+				if (outaddr > highaddr)
+					highaddr = outaddr;
+			}
+		}
+		while (rc);
+	
+		*length = (lowaddr > highaddr) ? 0 : 1 + highaddr - lowaddr;
+		*start = (lowaddr > highaddr ) ? 0 : lowaddr;
+	}
+}
+
+void write_code_abs_aux(asmstate_t *as, FILE *of, unsigned int start, unsigned int header_size)
+{
+	line_t *cl;
+
+	char outbyte;
+	int outaddr, rc;
+
+	for (cl = as -> line_head; cl; cl = cl -> next)
+	{
+		do
+		{
+			rc = fetch_output_byte(cl, &outbyte, &outaddr);
+			
+			// if first byte to write or output stream jumps address, seek
+			if (rc == -1)
+			{
+				fseek(of,(long int) header_size + outaddr - start, SEEK_SET);
+			}
+			if (rc) fputc(outbyte,of);
+		}
+		while (rc);
+	}
+
+}
+
+/* Write a DragonDOS binary file */
+
+void write_code_dragon(asmstate_t *as, FILE *of)
+{
+	unsigned char headerbuf[9];
+	unsigned int start, length;
+
+	write_code_abs_calc(as, &start, &length);
+
+	headerbuf[0] = 0x55; // magic $55
+	headerbuf[1] = 0x02; // binary file
+	headerbuf[2] = (start >> 8) & 0xFF;
+	headerbuf[3] = (start) & 0xFF;
+	headerbuf[4] = (length >> 8) & 0xFF;
+	headerbuf[5] = (length) & 0xFF;
+	headerbuf[6] = (as -> execaddr >> 8) & 0xFF;
+	headerbuf[7] = (as -> execaddr) & 0xFF;
+	headerbuf[8] = 0xAA; // magic $AA
+
+	writebytes(headerbuf, 9, 1, of);
+
+	write_code_abs_aux(as, of, start, 9);
+
+}
+
+/* Write a monolithic binary block, respecting absolute address segments from ORG directives */
+/* Uses fseek, requires lowest code address and header offset size */
+/* Out of order ORG addresses are handled */
+
+void write_code_abs(asmstate_t *as, FILE *of)
+{
+	unsigned int start, length;
+	
+	write_code_abs_calc(as, &start, &length);
+	write_code_abs_aux(as, of, start, 0);
 }

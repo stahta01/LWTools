@@ -64,7 +64,9 @@ enum lwasm_output_e
 	OUTPUT_SREC,		// motorola SREC format
 	OUTPUT_IHEX,		// intel hex format
 	OUTPUT_HEX,			// generic hexadecimal format
-	OUTPUT_LWMOD        // special module format for LW
+	OUTPUT_LWMOD,       // special module format for LW
+	OUTPUT_DRAGON,      // Dragon DOS binary
+	OUTPUT_ABS          // absolute binary block
 };
 
 enum lwasm_flags_e

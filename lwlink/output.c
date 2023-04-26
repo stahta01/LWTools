@@ -39,6 +39,7 @@ void do_output_raw(FILE *of);
 void do_output_raw2(FILE *of);
 void do_output_lwex0(FILE *of);
 void do_output_srec(FILE *of);
+void do_output_ihex(FILE *of);
 
 void do_output(void)
 {
@@ -76,6 +77,10 @@ void do_output(void)
 		
 	case OUTPUT_SREC:
 		do_output_srec(of);
+		break;
+
+	case OUTPUT_IHEX:
+		do_output_ihex(of);
 		break;
 		
 	default:
@@ -239,6 +244,58 @@ void do_output_srec(FILE *of)
 	recsum += (linkscript.execaddr >> 8) & 0xFF;
 	recsum += linkscript.execaddr & 0xFF;
 	fprintf(of,"S903%04X%02X\r\n",linkscript.execaddr,(unsigned char)(~recsum));
+}
+
+void do_output_ihex(FILE *of)
+{
+	const int IRECLEN = 16;
+
+	int sn;	
+	int remainingcodebytes;
+	
+	int codeaddr;
+	int i;
+	int recaddr = 0;
+	int recdlen = 0;
+	int recsum;
+	int reccnt = -1;
+	unsigned char* sectcode;
+	// no header yet; unnecessary
+
+	for (sn = 0; sn < nsects; sn++)				// check all sections
+	{
+		if (sectlist[sn].ptr -> flags & SECTION_BSS)	// ignore BSS sections
+			continue;
+		if (sectlist[sn].ptr -> codesize == 0)		// ignore empty sections
+			continue;
+
+		recaddr = sectlist[sn].ptr -> loadaddress;
+		remainingcodebytes = sectlist[sn].ptr -> codesize;
+		sectcode = sectlist[sn].ptr -> code;
+		
+		while (remainingcodebytes) 
+		{
+			recdlen = (IRECLEN>remainingcodebytes)?remainingcodebytes:IRECLEN;
+			recsum = recdlen;
+			codeaddr = recaddr - sectlist[sn].ptr -> loadaddress;			
+			fprintf(of, ":%02X%04X00", recdlen, recaddr & 0xffff);
+			for (i = 0; i < recdlen; i++)
+			{
+				fprintf(of, "%02X", sectcode[codeaddr+i]);
+				recsum += sectcode[codeaddr+i];
+			}
+			recsum += (recaddr >> 8) & 0xFF;
+			recsum += recaddr & 0xFF;
+			fprintf(of, "%02X\r\n", (unsigned char)(256 - recsum));
+			reccnt += 1;
+			remainingcodebytes -= recdlen;
+			recaddr += recdlen;
+		}
+	}
+	if (reccnt > 0)
+	{
+		fprintf(of, ":00%04X01FF\r\n", linkscript.execaddr);
+	}
 }
 
 void do_output_lwex0(FILE *of)

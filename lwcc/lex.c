@@ -682,7 +682,6 @@ strlit:
 					strval = lw_strbuf_end(strbuf);
 					goto out;
 				}
-				cl++;
 				lw_strbuf_add(strbuf, c);
 				continue;
 			}

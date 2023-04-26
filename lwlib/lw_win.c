@@ -19,6 +19,8 @@ You should have received a copy of the GNU General Public License along with
 this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#if defined(_MSC_VER) && _MSC_VER < 1900
+
 #include "lw_win.h"
 
 #include <stdio.h>
@@ -47,3 +49,5 @@ int c99_snprintf(char* str, size_t size, const char* format, ...)
 
 	return count;
 }
+
+#endif // _MSC_VER < 1900

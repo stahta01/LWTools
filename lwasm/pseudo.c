@@ -102,7 +102,7 @@ PARSEFUNC(pseudo_parse_end)
 
 	as->endseen = 1;
 
-	if ((as -> output_format != OUTPUT_DECB) && (as -> output_format != OUTPUT_BASIC) && (as -> output_format != OUTPUT_LWMOD && (as -> output_format != OUTPUT_IHEX) && (as -> output_format != OUTPUT_SREC)))
+	if ((as -> output_format != OUTPUT_DECB) && (as -> output_format != OUTPUT_BASIC) && (as -> output_format != OUTPUT_LWMOD) && (as -> output_format != OUTPUT_IHEX) && (as -> output_format != OUTPUT_SREC) && (as -> output_format != OUTPUT_DRAGON) && (as -> output_format != OUTPUT_ABS))
 	{
 		skip_operand(p);
 		return;

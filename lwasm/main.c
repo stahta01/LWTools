@@ -44,7 +44,7 @@ static struct lw_cmdline_options options[] =
 {
 	{ "output",		'o',	"FILE",		0,							"Output to FILE"},
 	{ "debug",		'd',	"LEVEL",	lw_cmdline_opt_optional,	"Set debug mode"},
-	{ "format",		'f',	"TYPE",		0,							"Select output format: decb, basic, raw, obj, os9, ihex, srec"},
+	{ "format",		'f',	"TYPE",		0,							"Select output format: decb, basic, raw, obj, os9, ihex, srec, dragon, abs"},
 	{ "list",		'l',	"FILE",		lw_cmdline_opt_optional,	"Generate list [to FILE]"},
 	{ "list-nofiles", 0x104, 0,			0,							"Omit file names in list output"},
 	{ "symbols",	's',	0,			lw_cmdline_opt_optional,	"Generate symbol list in listing, no effect without --list"},
@@ -53,6 +53,8 @@ static struct lw_cmdline_options options[] =
 	{ "tabs",		't',	"WIDTH",	0,							"Set tab spacing in listing (0=don't expand tabs)" },
 	{ "map",		'm',	"FILE",		lw_cmdline_opt_optional,	"Generate map [to FILE]"},
 	{ "decb",		'b',	0,			0,							"Generate DECB .bin format output, equivalent of --format=decb"},
+	{ "dragon",     0x107,  0,          0,                          "Generate a Dragon DOS binary format, equivalent of --format=dragon"},
+	{ "abs",        0x108,  0,          0,                          "Generate absolute binary format, equivalent of --format=abs"},
 	{ "raw",		'r',	0,			0,							"Generate raw binary format output, equivalent of --format=raw"},
 	{ "obj",		0x100,	0,			0,							"Generate proprietary object file format for later linking, equivalent of --format=obj" },
 	{ "depend",		0x101,	0,			0,							"Output a dependency list to stdout; do not do any actual output though assembly is completed as usual" },
@@ -173,6 +175,14 @@ static int parse_opts(int key, char *arg, void *state)
 	case 'b':
 		as -> output_format = OUTPUT_DECB;
 		break;
+	
+	case 0x107:
+		as -> output_format = OUTPUT_DRAGON;
+		break;
+	
+	case 0x108:
+		as -> output_format = OUTPUT_ABS;
+		break;
 
 	case 'r':
 		as -> output_format = OUTPUT_RAW;
@@ -211,6 +221,10 @@ static int parse_opts(int key, char *arg, void *state)
 			as -> output_format = OUTPUT_IHEX;
 		else if (!strcasecmp(arg, "hex"))
 			as -> output_format = OUTPUT_HEX;
+		else if (!strcasecmp(arg, "dragon"))
+			as -> output_format = OUTPUT_DRAGON;
+		else if (!strcasecmp(arg, "abs"))
+			as -> output_format = OUTPUT_ABS;
 		else if (!strcasecmp(arg, "os9"))
 		{
 			as -> pragmas |= PRAGMA_DOLLARNOTLOCAL;

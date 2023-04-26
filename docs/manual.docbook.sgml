@@ -535,7 +535,7 @@ Motorola.  By default, this does not include any MC6800 compatibility
 instructions.  As of LWASM 4.11, those compatibility instructions can be
 enabled using the <parameter>--6800compat</parameter> option or the
 <parameter>6800compat</parameter> pragma.  It also supports all known HD6309
-instructions.  While there is general agreement on the pneumonics for most
+instructions.  While there is general agreement on the mnemonics for most
 of the 6309 instructions, there is some variance with the block transfer
 instructions.  TFM for all four variations seems to have gained the most
 traction and, thus, this is the form that is recommended for LWASM. 

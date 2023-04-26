@@ -181,7 +181,7 @@ void do_list(asmstate_t *as)
 		else
 		{
 			lw_expr_t te;
-			if (instab[cl -> insn].flags & lwasm_insn_setdata)
+			if ((cl -> insn >= 0) && (instab[cl -> insn].flags & lwasm_insn_setdata))
 				te = lw_expr_copy(cl -> daddr);
 			else
 				te = lw_expr_copy(cl -> addr);
