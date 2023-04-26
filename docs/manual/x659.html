@@ -1,0 +1,575 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Assembler Modes and Pragmas</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWASM"
+HREF="c62.html"><LINK
+REL="PREVIOUS"
+TITLE="Object Files and Sections"
+HREF="x595.html"><LINK
+REL="NEXT"
+TITLE="Convenience Instructions"
+HREF="x805.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x595.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 3. LWASM</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x805.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN659"
+>3.10. Assembler Modes and Pragmas</A
+></H1
+><P
+>There are a number of options that affect the way assembly is performed.
+Some of these options can only be specified on the command line because
+they determine something absolute about the assembly process. These include
+such things as the output target. Other things may be switchable during
+the assembly process. These are known as pragmas and are, by definition,
+not portable between assemblers.</P
+><P
+>LWASM supports a number of pragmas that affect code generation or
+otherwise affect the behaviour of the assembler. These may be specified by
+way of a command line option or by assembler directives. The directives
+are as follows.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>PRAGMA <CODE
+CLASS="PARAMETER"
+>pragma[,...]</CODE
+></DT
+><DD
+><P
+>Specifies that the assembler should bring into force all <CODE
+CLASS="PARAMETER"
+>pragma</CODE
+>s
+specified. Any unrecognized pragma will cause an assembly error. The new
+pragmas will take effect immediately. This directive should be used when
+the program will assemble incorrectly if the pragma is ignored or not supported.</P
+></DD
+><DT
+>*PRAGMA <CODE
+CLASS="PARAMETER"
+>pragma[,...]</CODE
+></DT
+><DD
+><P
+>This is identical to the PRAGMA directive except no error will occur with
+unrecognized or unsupported pragmas. This directive, by virtue of starting
+with a comment character, will also be ignored by assemblers that do not
+support this directive. Use this variation if the pragma is not required
+for correct functioning of the code.</P
+></DD
+><DT
+>*PRAGMAPUSH <CODE
+CLASS="PARAMETER"
+>pragma[,...]</CODE
+></DT
+><DD
+><P
+>This directive saves the current state of the specified pragma(s) for later retrieval. See discussion below for more information.</P
+><P
+>This directive will not throw any errors for any reason.</P
+></DD
+><DT
+>*PRAGMAPOP <CODE
+CLASS="PARAMETER"
+>pragma[,...]</CODE
+></DT
+><DD
+><P
+>This directive restores the previously saved state of the specified pragma(s). See discussion below for more information.</P
+><P
+>This directive will not throw any errors for any reason.</P
+></DD
+></DL
+></DIV
+><P
+>Each pragma supported has a positive version and a negative version. 
+The positive version enables the pragma while the negative version disables
+it.  The negatitve version is simply the positive version with "no" prefixed
+to it.  For instance, "pragma" vs.  "nopragma".  When only one version is
+listed below, its opposite can be obtained by prepending "no" if it is not
+present or removing "no" from the beginning if it is present.</P
+><P
+>Pragmas are not case sensitive.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>6800compat</DT
+><DD
+><P
+>When in force, this pragma enables recognition of various
+compatibility instructions useful when assembling 6800 code.  These
+compatibility instructions are assembled into equivalent 6809 instructions. 
+This mode also includes several analogous instructions which are not
+strictly 6800 instructions but allow the similar style to be applied to 6809
+specific features.</P
+><P
+>Technically, a compliant 6809 assembler must recognize these
+instructions by default since Motorola advertised the 6809 as being source
+compatible with the 6800.  However, most source code does not require this
+compatibility and LWASM itself did not support these instructions prior to
+version 4.11 so this mode is disabled by default.</P
+></DD
+><DT
+>6809</DT
+><DD
+><P
+>This pragma allows you to mark a section of code as 6809-only. In ths mode,
+the assembler will throw an error if any 6309 instructions are used.</P
+></DD
+><DT
+>6309</DT
+><DD
+><P
+>This pragma enables the use of 6309 instructions and disables any 6809 specific
+instructions. It also changes the cycle count listing output (if selected)
+to display 6309 timings.</P
+></DD
+><DT
+>6809conv, 6309conv</DT
+><DD
+><P
+>These pragmas enable convenience instructions extending the 6809 and 6309
+instruction sets respectively. For more information, see 
+<A
+HREF="x805.html"
+>Section 3.11</A
+>.</P
+></DD
+><DT
+>index0tonone</DT
+><DD
+><P
+>When in force, this pragma enables an optimization affecting indexed addressing
+modes. When the offset expression in an indexed mode evaluates to zero but is
+not explicity written as 0, this will replace the operand with the equivalent
+no offset mode, thus creating slightly faster code. Because of the advantages
+of this optimization, it is enabled by default.</P
+></DD
+><DT
+>cescapes</DT
+><DD
+><P
+>This pragma will cause strings in the FCC, FCS, and FCN pseudo operations to
+have C-style escape sequences interpreted. The one departure from the official
+spec is that unrecognized escape sequences will return either the character
+immediately following the backslash or some undefined value. Do not rely
+on the behaviour of undefined escape sequences.</P
+></DD
+><DT
+>importundefexport</DT
+><DD
+><P
+>This pragma is only valid for targets that support external references. When
+in force, it will cause the EXPORT directive to act as IMPORT if the symbol
+to be exported is not defined.  This is provided for compatibility with the
+output of gcc6809 and should not be used in hand written code.  Because of
+the confusion this pragma can cause, it is disabled by default.</P
+></DD
+><DT
+>undefextern</DT
+><DD
+><P
+>This pragma is only valid for targets that support external references. When in
+force, if the assembler sees an undefined symbol on the second pass, it will
+automatically define it as an external symbol. This automatic definition will
+apply for the remainder of the assembly process, even if the pragma is
+subsequently turned off. Because this behaviour would be potentially surprising,
+this pragma defaults to off.</P
+><P
+>The primary use for this pragma is for projects that share a large number of
+symbols between source files. In such cases, it is impractical to enumerate
+all the external references in every source file. This allows the assembler
+and linker to do the heavy lifting while not preventing a particular source
+module from defining a local symbol of the same name as an external symbol
+if it does not need the external symbol. (This pragma will not cause an
+automatic external definition if there is already a locally defined symbol.)</P
+><P
+>This pragma will often be specified on the command line for large projects.
+However, depending on the specific dynamics of the project, it may be sufficient
+for one or two files to use this pragma internally.</P
+></DD
+><DT
+>export</DT
+><DD
+><P
+>This pragma causes all symbols to be added to the export list
+automatically.  This is useful when a large number of symbols need to be
+exported but you do not wish to include an EXPORT directive for all of them. 
+This is often useful on the command line but might be useful even inline
+with the PRAGMA directive if a large number of symbols in a row are to be
+exported.</P
+></DD
+><DT
+>dollarlocal</DT
+><DD
+><P
+>When set, a "$" in a symbol makes it local. When not set, "$" does not
+cause a symbol to be local.  It is set by default except when using the OS9
+target.</P
+></DD
+><DT
+>dollarnotlocal</DT
+><DD
+><P
+> This is the same as the "dollarlocal" pragma except its sense is
+reversed.  That is, "dollarlocal" and "nodollarnotlocal" are equivalent and
+"nodollarlocal" and "dollarnotlocal" are equivalent.  </P
+></DD
+><DT
+>pcaspcr</DT
+><DD
+><P
+> Normally, LWASM makes a distinction between PC and PCR in program
+counter relative addressing. In particular, the use of PC means an absolute
+offset from PC while PCR causes the assembler to calculate the offset to the
+specified operand and use that as the offset from PC. By setting this
+pragma, you can have PC treated the same as PCR. </P
+></DD
+><DT
+>shadow</DT
+><DD
+><P
+>When this pragma is in effect, it becomes possible to define a macro
+that matches an internal operation code. Thus, it makes it possible to
+redefine either CPU instructions or pseudo operations. Because this feature
+is of dubious utility, it is disabled by default.</P
+></DD
+><DT
+>nolist</DT
+><DD
+><P
+>Lines where this pragma is in effect will not appear in the assembly
+listing.  Also, any symbols defined under this pragma will not show up in
+the symbol list.  This is most useful in include files to avoid spamming the
+assembly listing with dozens, hundreds, or thousands of irrelevant
+symbols.</P
+></DD
+><DT
+>autobranchlength</DT
+><DD
+><P
+>One of the perennial annoyances for 6809 programmers is that the
+mneumonics for the short and long branch instructions are different (bxx vs. 
+lbxx), which is at odds with the rest of the instruction set.  This pragma
+is a solution to those annoying byte overflow errors that short branch
+instructions tend to aquire.</P
+><P
+>When this pragma is in effect, which is not the default, whenever any
+relative branch instruction is used, its size will be automatically
+determined based on the actual distance to the destination.  In other words,
+one can write code with long or short branches everywhere and the assembler
+will choose a size for the branch.</P
+><P
+>Also, while this pragma is in effect, the &#62; and &#60; symbols can be used
+to force the branch size, analogous to their use for other instructions with
+&#60; forcing 8 bit offsets and &#62; forcing 16 bit offets.</P
+><P
+>Because this pragma leads to source that is incompatible with other
+assemblers, it is strongly recommended that it be invoked using the PRAGMA
+directive within the source code rather than on the command line or via the
+*PRAGMA directive.  This way, an error will be raised if someone tries to
+assemble the code under a different assembler.</P
+></DD
+><DT
+>nosymbolcase, symbolnocase</DT
+><DD
+><P
+>Any symbol defined while this pragma is in force will be treated as
+case insensitive, regardless whether the pragma is in force when the symbol
+is referenced.</P
+><P
+>It is important to note that this pragma will not work as expected in
+all cases when using the object file assembly target.  It is intended for
+use only when the assembler will be producing the final binary.</P
+></DD
+><DT
+>condundefzero</DT
+><DD
+><P
+>This pragma will cause the assembler to change the way it handles
+symbols in conditional expressions.  Ordinarily, any symbol that is not
+defined prior to the conditional will throw an undefined symbol error.  With
+this pragma in effect, symbols that are not yet defined at the point the
+conditional is encountered will be treated as zero.</P
+><P
+>This is not the default because it encourages poor code design. One
+should use the "IFDEF" or "IFNDEF" conditionals to test for the presence of
+a symbol.</P
+><P
+>It is important to note that if a symbol is defined but it does not
+yet evaluate to a constant value at the point where the conditional appears,
+the assembler will still complain about a non constant condition.</P
+></DD
+><DT
+>forwardrefmax</DT
+><DD
+><P
+>This pragma will disable forward reference optimization completely.
+Ordinarily, LWASM will attempt to select the shortest possible addressing
+mode for forward references.  However, in many source files, especially
+those not using the PCR relative addressing modes, this optimization is
+pointless since the assembler will almost certainly settle on a 16 bit
+offset or address.  If all variables in the direct page are defined before
+the main body of the code, the benefit of forward reference optimization
+almost certainly vanishes completely.  However, the cost of doing that
+optimization remains and can result in a very long assembly time.</P
+><P
+>Enabling this pragma will cause all forward references to use the
+maximum offset or address size, much the same has EDTASM and other pure
+two pass assemblers do. The side effect is that all line lengths and
+symbol values are fully resolved after the initial parsing pass and the
+amount of work to resolve everything becomes almost nil.</P
+><P
+>While this pragma can be applied selectively to sections of source
+code (use *PRAGMA if doing so and compatibility with other assemblers
+is desired), it is likely more useful when provided as a command line
+pragma.</P
+><P
+>It should be noted that the presence or absence of this pragma
+will not change the correctness of the generated code unless cycle counts
+or byte counts are critical (which they usually are not). It also will
+not override the operand size override prefixes (&lt; and &gt;). It only
+applies when the assembler is left to guess what the operand size is.</P
+></DD
+><DT
+>operandsizewarning</DT
+><DD
+><P
+>Enabling this pragma will cause LWASM to show a warning when it
+detects that a smaller addressing mode could be used for an instruction.
+This is particularly useful for finding places where long branches are used
+where short branches could be used instead. It will also show the warnings
+for indexing offsets (regardless of whether the operand size is
+forced).</P
+><P
+>As of LWASM 4.16, no other checks are performed.</P
+></DD
+><DT
+>qrts</DT
+><DD
+><P
+>&#13;Enables the use of the ?RTS branch target. ?RTS is implemented to maintain
+compatibility with the MACRO-80c assembler.  It works by searching backward
+in the code for an RTS instruction.  If none is found, it inverts the branch
+logic and inserts an RTS following the branch instruction.  Below you can
+see how a BMI (2B xx) has been assembled as a BPL *+1 (2A 01) to skip over an
+inserted RTS (39).</P
+><PRE
+CLASS="PROGRAMLISTING"
+>1D1E 7D1D1D            TST   WHICH1
+1D21 2A0139            BMI   ?RTS
+1D24 BD1D65            JSR   INV</PRE
+></DD
+><DT
+>m80ext</DT
+><DD
+><P
+>&#13;This pragma (along with pragma qrts) enables some uncommon behaviors to
+accomodate The Micro Works MACRO-80c assembler from 1982.  This assembler
+was used by a number of notable TRS-80 Color Computer applications and the
+goal of this pragma is to allow them to build identical binaries from
+unmodified, vintage source code.</P
+><P
+>&#13;In m80ext mode, the handling of the "END" pseudo-op changes when used inside
+an include file.  Instead of terminating all assembly, it merely stops
+processing of the current include file (this behavior matches the original
+Motorola 6809 assembler).  In addition, loading an ASCII value with a single
+quote (e.g., LDA #'N) is extended to 16-bit registers (e.g., LDD #'NO). 
+LWASM normally supports this via double quote and that is the proper use in
+modern code.  Finally, the FCC pseudo-op is extended to handle FCB-like
+behavior after the closing delimiter:</P
+><PRE
+CLASS="PROGRAMLISTING"
+>                       FCC "Greetings from 1982",13,0</PRE
+></DD
+><DT
+>testmode</DT
+><DD
+><P
+>&#13;This pragma is intended for internal testing purposes. In testmode, the
+assembler searches for a specially-formatted comment starting with a
+semicolon followed by a period.  Immediately afterward are a list of hex
+bytes that the assembler is expected to generate.  Likewise, if the
+assembler is expected to throw an error or warning on a given line, you can
+check by specifying "E:" followed by the error number.  In this case the
+error is ignored and the assembler continues ignoring the line in question.&#13;</P
+><PRE
+CLASS="PROGRAMLISTING"
+>1D1E 7D1D1D            TST   WHICH1    ;.7d1d1d
+1D21 2A0139            BMI   ?RTS      ;.2a0139
+1D24 1D24              FDB   *         ;.1d24
+1D26                   xyz   INV       ;.E:32    (Error 32 is "Bad opcode")</PRE
+></DD
+><DT
+>emuext</DT
+><DD
+><P
+>&#13;This pragma enables two instructions useful when running code in compatible
+emulators. Break breaks into the debugger. Log writes printf-style
+output to the debug window&#13;</P
+><PRE
+CLASS="PROGRAMLISTING"
+>      LOG           ; log output
+      FDB   FSTR    ; pointer to format string
+      FDB   PX1     ; 16 bit pointer to 16 bit value
+      FDB   PY1     ; 16 bit pointer to 8 bit value (see format string!)
+      FDB   PX2     ; 16 bit pointer to 16 bit value
+      FDB   PY2     ; 16 bit pointer to 8 bit value
+      ; execution continues here ...
+      RTS
+
+; format string
+FSTR  FCC   "%hu,%hhu - %hu,%hhu"
+      FCB   10,0</PRE
+></DD
+></DL
+></DIV
+><P
+>As a convenience, each input file has a pragma state stack. This
+allows, through the use of *PRAGMAPUSH and *PRAGMAPOP, a file to change a
+pragma state and then restore it to the precise state it had previously. 
+If, at the end of an input file, all pragma states have not been popped,
+they will be removed from the stack.  Thus, it is critical to employ
+*PRAGMAPOP correctly. Because each input file has its own pragma stack,
+using *PRAGMAPUSH in one file and *PRAGMAPOP in another file will not
+work.</P
+><P
+>Pragma stacks are more useful in include files, in particular in
+conjunction with the nolist pragma.  One can push the state of the nolist
+pragma, engage the nolist pragma, and then pop the state of the nolist
+pragma at the end of the include file.  This will cause the entire include
+file to operate under the nolist pragma.  However, if the file is included
+while nolist is already engaged, it will not undo that state.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x595.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x805.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Object Files and Sections</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c62.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Convenience Instructions</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Numbers and Expressions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWASM"
+HREF="c62.html"><LINK
+REL="PREVIOUS"
+TITLE="Symbols"
+HREF="x237.html"><LINK
+REL="NEXT"
+TITLE="Assembler Directives"
+HREF="x250.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x237.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 3. LWASM</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x250.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN242"
+>3.5. Numbers and Expressions</A
+></H1
+><P
+>&#13;Numbers can be expressed in binary, octal, decimal, or hexadecimal. Binary
+numbers may be prefixed with a "%" symbol or suffixed with a "b" or "B".
+Octal numbers may be prefixed with "@" or suffixed with "Q", "q", "O", or
+"o". Hexadecimal numbers may be prefixed with "$", "0x" or "0X", or suffixed
+with "H". No prefix or suffix is required for decimal numbers but they can
+be prefixed with "&amp;" if desired. Any constant which begins with a letter
+must be expressed with the correct prefix base identifier or be prefixed
+with a 0. Thus hexadecimal FF would have to be written either 0FFH or $FF.
+Numbers are not case sensitive.&#13;</P
+><P
+> A symbol may appear at any point where a number is acceptable. The
+special symbol "*" can be used to represent the starting address of the
+current source line within expressions. </P
+><P
+>The ASCII value of a character can be included by prefixing it with a
+single quote ('). The ASCII values of two characters can be included by
+prefixing the characters with a quote (").</P
+><P
+>&#13;LWASM supports the following basic binary operators: +, -, *, /, and %. 
+These represent addition, subtraction, multiplication, division, and
+modulus.  It also supports unary negation and unary 1's complement (- and ^
+respectively).  It is also possible to use ~ for the unary 1's complement
+operator.  For completeness, a unary positive (+) is supported though it is
+a no-op.  LWASM also supports using |, &#38;, and ^ for bitwise or, bitwise and,
+and bitwise exclusive or respectively.&#13;</P
+><P
+>&#13;Operator precedence follows the usual rules. Multiplication, division, and
+modulus take precedence over addition and subtraction.  Unary operators take
+precedence over binary operators.  Bitwise operators are lower precdence
+than addition and subtraction.  To force a specific order of evaluation,
+parentheses can be used in the usual manner.&#13;</P
+><P
+>&#13;As of LWASM 2.5, the operators &#38;&#38; and || are recognized for boolean and and
+boolean or respectively.  They will return either 0 or 1 (false or true). 
+They have the lowest precedence of all the binary operators.&#13;</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x237.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x250.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Symbols</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c62.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Assembler Directives</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

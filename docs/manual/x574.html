@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Structures</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWASM"
+HREF="c62.html"><LINK
+REL="PREVIOUS"
+TITLE="Macros"
+HREF="x551.html"><LINK
+REL="NEXT"
+TITLE="Object Files and Sections"
+HREF="x595.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x551.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 3. LWASM</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x595.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN574"
+>3.8. Structures</A
+></H1
+><P
+>&#13;Structures are used to group related data in a fixed structure. A structure
+consists a number of fields, defined in sequential order and which take up
+specified size.  The assembler does not enforce any means of access within a
+structure; it assumes that whatever you are doing, you intended to do. 
+There are two pseudo ops that are used for defining structures.&#13;</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><CODE
+CLASS="PARAMETER"
+>structname</CODE
+> STRUCT</DT
+><DD
+><P
+>&#13;This directive is used to begin the definition of a structure with name
+<CODE
+CLASS="PARAMETER"
+>structname</CODE
+>.  Subsequent statements all form part of
+the structure definition until the end of the structure is declared.&#13;</P
+></DD
+><DT
+>ENDSTRUCT, ENDS</DT
+><DD
+><P
+>This directive ends the definition of the structure. ENDSTRUCT is the
+preferred form. Prior to version 3.0 of LWASM, ENDS was used to end a
+section instead of a structure.</P
+></DD
+></DL
+></DIV
+><P
+>&#13;Within a structure definition, only reservation pseudo ops are permitted.
+Anything else will cause an assembly error.</P
+><P
+> Once a structure is defined, you can reserve an area of memory in the
+same structure by using the structure name as the opcode.  Structures can
+also contain fields that are themselves structures.  See the example
+below.</P
+><PRE
+CLASS="PROGRAMLISTING"
+>tstruct2  STRUCT
+f1        rmb 1
+f2        rmb 1
+          ENDSTRUCT
+
+tstruct   STRUCT
+field1    rmb 2
+field2    rmb 3
+field3    tstruct2
+          ENDSTRUCT
+
+          ORG $2000
+var1      tstruct
+var2      tstruct2</PRE
+><P
+>Fields are referenced using a dot (.) as a separator. To refer to the
+generic offset within a structure, use the structure name to the left of the
+dot.  If referring to a field within an actual variable, use the variable's
+symbol name to the left of the dot.</P
+><P
+>You can also refer to the actual size of a structure (or a variable
+declared as a structure) using the special symbol sizeof{structname} where
+structname will be the name of the structure or the name of the
+variable.</P
+><P
+>Essentially, structures are a shortcut for defining a vast number of
+symbols.  When a structure is defined, the assembler creates symbols for the
+various fields in the form structname.fieldname as well as the appropriate
+sizeof{structname} symbol.  When a variable is declared as a structure, the
+assembler does the same thing using the name of the variable.  You will see
+these symbols in the symbol table when the assembler is instructed to
+provide a listing.  For instance, the above listing will create the
+following symbols (symbol values in parentheses): tstruct2.f1 (0),
+tstruct2.f2 (1), sizeof{tstruct2} (2), tstruct.field1 (0), tstruct.field2
+(2), tstruct.field3 (5), tstruct.field3.f1 (5), tstruct.field3.f2 (6),
+sizeof{tstruct.field3} (2), sizeof{tstruct} (7), var1 {$2000}, var1.field1
+{$2000}, var1.field2 {$2002}, var1.field3 {$2005}, var1.field3.f1 {$2005},
+var1.field3.f2 {$2006}, sizeof(var1.field3} (2), sizeof{var1} (7), var2
+($2007), var2.f1 ($2007), var2.f2 ($2008), sizeof{var2} (2).  </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x551.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x595.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Macros</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c62.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Object Files and Sections</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

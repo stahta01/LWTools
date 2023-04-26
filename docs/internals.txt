@@ -1,0 +1,57 @@
+LWASM Internals
+===============
+
+LWASM is a table-driven assembler that notionally uses two passes. However,
+it implements its assembly in several passes as follows.
+
+Pass 1
+------
+
+This pass reads the entire source code and parses each line into an internal
+representation. Macros, file inclusions, and conditional assembly
+instructions are resolved at this point as well. Instructions with known
+sizes will have their sizes resolved at this point.
+
+Pass 2
+------
+
+Check all exported symbols for validity and set them as imports if the
+assembler state says so. Also resolve all symbol references in all
+expressions to be direct references either to the symbol table or
+to the import list.
+
+Pass 3
+------
+
+This pass resolves all instruction sizes that can be resolved without
+forcing any instruction sizes. This pass will run repeatedly until no
+no new resolution occurs.
+
+Pass 4
+------
+
+Work through all un-resolved instructions and force sizes. After each size
+is forced, try re-resolving all other instructions. This is done starting
+at the beginning of the source and working forward. If any instruction does
+not resolve when forced, an error will be thrown.
+
+Pass 5
+------
+
+Constantize all line addresses and throw errors if any cannot be. This
+pass will repeat until no further lines addresses are reduced to constants
+at which time all lines will be checked for constant-ness.
+
+Pass 6
+------
+
+Finalize all expressions related to instructions. Carp about any that
+cannot be reduced to a usable form. That means, for the non-object target
+all expressions must resolve to a constant. For the object form, all
+expressions must resolve to symbol references and constants. Those symbol
+references may be internal or external.
+
+Pass 7
+------
+
+Emit object code for each line for later output.

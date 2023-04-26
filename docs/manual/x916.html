@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Linker Operation</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWLINK"
+HREF="c816.html"><LINK
+REL="PREVIOUS"
+TITLE="LWLINK"
+HREF="c816.html"><LINK
+REL="NEXT"
+TITLE="Linking Scripts"
+HREF="x930.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c816.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. LWLINK</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x930.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN916"
+>4.2. Linker Operation</A
+></H1
+><P
+>&#13;LWLINK takes one or more files in supported input formats and links them
+into a single binary. Currently supported formats are the LWTOOLS object
+file format and the archive format used by LWAR. While the precise method is
+slightly different, linking can be conceptualized as the following steps.&#13;</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>First, the linker loads a linking script. If no script is specified, it
+loads a built-in default script based on the output format selected. This
+script tells the linker how to lay out the various sections in the final
+binary.</P
+></LI
+><LI
+><P
+>Next, the linker reads all the input files into memory. At this time, it
+flags any format errors in those files. It constructs a table of symbols
+for each object at this time.</P
+></LI
+><LI
+><P
+>The linker then proceeds with organizing the sections loaded from each file
+according to the linking script. As it does so, it is able to assign addresses
+to each symbol defined in each object file. At this time, the linker may
+also collapse different instances of the same section name into a single
+section by appending the data from each subsequent instance of the section
+to the first instance of the section.</P
+></LI
+><LI
+><P
+>Next, the linker looks through every object file for every incomplete reference.
+It then attempts to fully resolve that reference. If it cannot do so, it
+throws an error. Once a reference is resolved, the value is placed into
+the binary code at the specified section. It should be noted that an
+incomplete reference can reference either a symbol internal to the object
+file or an external symbol which is in the export list of another object
+file.</P
+></LI
+><LI
+><P
+>If all of the above steps are successful, the linker opens the output file
+and actually constructs the binary.</P
+></LI
+></OL
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c816.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x930.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>LWLINK</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c816.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Linking Scripts</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

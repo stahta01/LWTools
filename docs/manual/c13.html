@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Introduction</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="NEXT"
+TITLE="Output Formats"
+HREF="c21.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="index.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="c21.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN13"
+></A
+>Chapter 1. Introduction</H1
+><P
+>The LW tool chain provides utilities for building binaries for MC6809 and
+HD6309 CPUs. The tool chain includes a cross-assembler and a cross-linker
+which support several styles of output.</P
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN16"
+>1.1. History</A
+></H1
+><P
+>For a long time, I have had an interest in creating an operating system for
+the Coco3. I finally started working on that project around the beginning of
+2006. I had a number of assemblers I could choose from. Eventually, I settled
+on one and started tinkering. After a while, I realized that assembler was not
+going to be sufficient due to lack of macros and issues with forward references.
+Then I tried another which handled forward references correctly but still did
+not support macros. I looked around at other assemblers and they all lacked
+one feature or another that I really wanted for creating my operating system.</P
+><P
+>The solution seemed clear at that point. I am a fair programmer so I figured
+I could write an assembler that would do everything I wanted an assembler to
+do. Thus the LWASM probject was born. After more than two years of on and off
+work, version 1.0 of LWASM was released in October of 2008.</P
+><P
+>As the aforementioned operating system project progressed further, it became
+clear that while assembling the whole project through a single file was doable,
+it was not practical. When I found myself playing some fancy games with macros
+in a bid to simulate sections, I realized I needed a means of assembling
+source files separately and linking them later. This spawned a major development
+effort to add an object file support to LWASM. It also spawned the LWLINK
+project to provide a means to actually link the files.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c21.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>LW Tool Chain</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Output Formats</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

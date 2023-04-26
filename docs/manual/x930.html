@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Linking Scripts</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWLINK"
+HREF="c816.html"><LINK
+REL="PREVIOUS"
+TITLE="Linker Operation"
+HREF="x916.html"><LINK
+REL="NEXT"
+TITLE="Format Specific Linking Notes"
+HREF="x996.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x916.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. LWLINK</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x996.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN930"
+>4.3. Linking Scripts</A
+></H1
+><P
+>A linker script is used to instruct the linker about how to assemble the
+various sections into a completed binary. It consists of a series of
+directives which are considered in the order they are encountered.</P
+><P
+>The sections will appear in the resulting binary in the order they are
+specified in the script file. If a referenced section is not found, the linker will behave as though the
+section did exist but had a zero size, no relocations, and no exports.
+A section should only be referenced once. Any subsequent references will have
+an undefined effect.</P
+><P
+>All numbers are in linking scripts are specified in hexadecimal. All directives
+are case sensitive although the hexadecimal numbers are not.</P
+><P
+>A section name can be specified as a "*", then any section not
+already matched by the script will be matched. The "*" can be followed
+by a comma and a flag to narrow the section down slightly, also.
+If the flag is "!bss", then any section that is not flagged as a bss section
+will be matched. If the flag is "bss", then any section that is flagged as
+bss will be matched.</P
+><P
+>The following directives are understood in a linker script.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>sectopt <CODE
+CLASS="PARAMETER"
+>section</CODE
+> padafter <CODE
+CLASS="PARAMETER"
+>byte,...</CODE
+></DT
+><DD
+><P
+>&#13;This will cause the linker to append the specified list of byte values
+(specified in hexadecimal separated by commas) to the end of the named
+section.  This is done once all instances of the specified section are
+collected together.  This has no effect if the specified section does not
+appear anywhere in any of the objects specified for linking. &#13;</P
+><P
+>&#13;If code depends on the presence of this padding somewhere, it is sufficient
+to include an empty section of the specified name in the object that depends
+on it.&#13;</P
+></DD
+><DT
+>define basesympat <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>&#13;This causes the linker to define a symbol for the ultimate base address of
+each section using the pattern specified by <CODE
+CLASS="PARAMETER"
+>string</CODE
+>. 
+In the string, %s can appear exactly once and will be replaced with the
+section name.  The base address is calculated after all instances of each
+section have been collapsed together.&#13;</P
+><P
+>&#13;It should be noted that if none of the objects to be linked contains a
+particular section name, there will be no base symbol defined for it, even
+if it is listed explicitly in the link script.  If code depends on the
+presence of these symbols, it is sufficient to include an empty section of
+the specified name in the object that depends on it.&#13;</P
+><P
+>  If the pattern resolves to the same string for multiple
+sections, the results are undefined.&#13;</P
+></DD
+><DT
+>define lensympat <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>&#13;This causes the linker to define a symbol for the ultimate length of each
+section using the pattern specified by <CODE
+CLASS="PARAMETER"
+>string</CODE
+>.  In
+the string, %s can appear exactly once and will be replaced with the section
+name.  The length is calculated after all instances of a section have been
+collapsed together.&#13;</P
+><P
+>&#13;It should be noted that if none of the objects to be linked contains a
+particular section name, there will be no length symbol defined for it, even
+if it is listed explicitly in the link script.  If code depends on the
+presence of these symbols, it is sufficient to include an empty section of
+the specified name in the object that depends on it.&#13;</P
+><P
+>If the pattern resolves to the same string for multiple
+sections, the results are undefined.&#13;</P
+></DD
+><DT
+>section <CODE
+CLASS="PARAMETER"
+>name</CODE
+> load <CODE
+CLASS="PARAMETER"
+>addr</CODE
+></DT
+><DD
+><P
+>&#13;This causes the section <CODE
+CLASS="PARAMETER"
+>name</CODE
+> to load at
+<CODE
+CLASS="PARAMETER"
+>addr</CODE
+>. For the raw target, only one "load at" entry is
+allowed for non-bss sections and it must be the first one. For raw targets,
+it affects the addresses the linker assigns to symbols but has no other
+affect on the output. bss sections may all have separate load addresses but
+since they will not appear in the binary anyway, this is okay.</P
+><P
+>For the decb target, each "load" entry will cause a new "block" to be
+output to the binary which will contain the load address. It is legal for
+sections to overlap in this manner - the linker assumes the loader will sort
+everything out.</P
+></DD
+><DT
+>section <CODE
+CLASS="PARAMETER"
+>name</CODE
+> high <CODE
+CLASS="PARAMETER"
+>addr</CODE
+></DT
+><DD
+><P
+>&#13;This causes the section <CODE
+CLASS="PARAMETER"
+>name</CODE
+> to load with its end
+address just below <CODE
+CLASS="PARAMETER"
+>addr</CODE
+>.  Subsequent sections are
+loaded at progressively lower addresses.  This may lead to inefficient file
+encoding for some targets.  As of this writing, it will also almost
+certainly do the wrong thing for a raw target.&#13;</P
+><P
+>&#13;This is useful for aligning a block of code with high memory.  As an
+example, if the total size of a section is $100 bytes and a high address of
+$FE00 is specified, the section will actually load at $FD00.&#13;</P
+></DD
+><DT
+>section <CODE
+CLASS="PARAMETER"
+>name</CODE
+></DT
+><DD
+><P
+>&#13;This will cause the section <CODE
+CLASS="PARAMETER"
+>name</CODE
+> to load after the previously listed
+section.</P
+></DD
+><DT
+>entry <CODE
+CLASS="PARAMETER"
+>addr or sym</CODE
+></DT
+><DD
+><P
+>This will cause the execution address (entry point) to be the address
+specified (in hex) or the specified symbol name. The symbol name must
+match a symbol that is exported by one of the object files being linked.
+This has no effect for targets that do not encode the entry point into the
+resulting file. If not specified, the entry point is assumed to be address 0
+which is probably not what you want. The default link scripts for targets
+that support this directive automatically starts at the beginning of the
+first section (usually "init" or "code") that is emitted in the binary.</P
+></DD
+><DT
+>pad <CODE
+CLASS="PARAMETER"
+>size</CODE
+></DT
+><DD
+><P
+>This will cause the output file to be padded with NUL bytes to be exactly
+<CODE
+CLASS="PARAMETER"
+>size</CODE
+> bytes in length. This only makes sense for a raw target.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x916.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x996.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Linker Operation</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c816.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Format Specific Linking Notes</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

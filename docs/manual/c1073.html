@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Object Files</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="Libraries and LWAR"
+HREF="c1011.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c1011.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+>&nbsp;</TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="OBJCHAP"
+></A
+>Chapter 6. Object Files</H1
+><P
+>LWTOOLS uses a proprietary object file format. It is proprietary in the sense
+that it is specific to LWTOOLS, not that it is a hidden format. It would be
+hard to keep it hidden in an open source tool chain anyway. This chapter
+documents the object file format.</P
+><P
+>An object file consists of a series of sections each of which contains a
+list of exported symbols, a list of incomplete references, and a list of
+"local" symbols which may be used in calculating incomplete references. Each
+section will obviously also contain the object code.</P
+><P
+>Exported symbols must be completely resolved to an address within the
+section it is exported from. That is, an exported symbol must be a constant
+rather than defined in terms of other symbols.</P
+><P
+>Each object file starts with a magic number and version number. The magic
+number is the string "LWOBJ16" for this 16 bit object file format. The only
+defined version number is currently 0. Thus, the first 8 bytes of the object
+file are <FONT
+COLOR="RED"
+>4C574F424A313600</FONT
+></P
+><P
+>Each section has the following items in order:</P
+><P
+></P
+><UL
+><LI
+><P
+>section name</P
+></LI
+><LI
+><P
+>flags</P
+></LI
+><LI
+><P
+>list of local symbols (and addresses within the section)</P
+></LI
+><LI
+><P
+>list of exported symbols (and addresses within the section)</P
+></LI
+><LI
+><P
+>list of incomplete references along with the expressions to calculate them</P
+></LI
+><LI
+><P
+>the actual object code (for non-BSS sections)</P
+></LI
+></UL
+><P
+>The section starts with the name of the section with a NUL termination
+followed by a series of flag bytes terminated by NUL. There are only two
+flag bytes defined. A NUL (0) indicates no more flags and a value of 1
+indicates the section is a BSS section. For a BSS section, no actual
+code is included in the object file.</P
+><P
+>Either a NULL section name or end of file indicate the presence of no more
+sections.</P
+><P
+>Each entry in the exported and local symbols table consists of the symbol
+(NUL terminated) followed by two bytes which contain the value in big endian
+order. The end of a symbol table is indicated by a NULL symbol name.</P
+><P
+>Each entry in the incomplete references table consists of an expression
+followed by a 16 bit offset where the reference goes. Expressions are
+defined as a series of terms up to an "end of expression" term. Each term
+consists of a single byte which identifies the type of term (see below)
+followed by any data required by the term. Then end of the list is flagged
+by a NULL expression (only an end of expression term).</P
+><DIV
+CLASS="TABLE"
+><A
+NAME="AEN1098"
+></A
+><P
+><B
+>Table 6-1. Object File Term Types</B
+></P
+><TABLE
+BORDER="1"
+FRAME="border"
+CLASS="CALSTABLE"
+><COL><COL><THEAD
+><TR
+><TH
+>TERMTYPE</TH
+><TH
+>Meaning</TH
+></TR
+></THEAD
+><TBODY
+><TR
+><TD
+>00</TD
+><TD
+>end of expression</TD
+></TR
+><TR
+><TD
+>01</TD
+><TD
+>integer (16 bit in big endian order follows)</TD
+></TR
+><TR
+><TD
+>02</TD
+><TD
+>	external symbol reference (NUL terminated symbol name follows)</TD
+></TR
+><TR
+><TD
+>03</TD
+><TD
+>local symbol reference (NUL terminated symbol name follows)</TD
+></TR
+><TR
+><TD
+>04</TD
+><TD
+>operator (1 byte operator number)</TD
+></TR
+><TR
+><TD
+>05</TD
+><TD
+>section base address reference</TD
+></TR
+><TR
+><TD
+>FF</TD
+><TD
+>This term will set flags for the expression. Each one of these terms will set a single flag. All of them should be specified first in an expression. If they are not, the behaviour is undefined. The byte following is the flag. Flag 01 indicates an 8 bit relocation. Flag 02 indicates a zero-width relocation (see the EXTDEP pseudo op in LWASM).</TD
+></TR
+></TBODY
+></TABLE
+></DIV
+><P
+>External references are resolved using other object files while local
+references are resolved using the local symbol table(s) from this file. This
+allows local symbols that are not exported to have the same names as
+exported symbols or external references.</P
+><DIV
+CLASS="TABLE"
+><A
+NAME="AEN1128"
+></A
+><P
+><B
+>Table 6-2. Object File Operator Numbers</B
+></P
+><TABLE
+BORDER="1"
+FRAME="border"
+CLASS="CALSTABLE"
+><COL><COL><THEAD
+><TR
+><TH
+>Number</TH
+><TH
+>Operator</TH
+></TR
+></THEAD
+><TBODY
+><TR
+><TD
+>01</TD
+><TD
+>addition (+)</TD
+></TR
+><TR
+><TD
+>02</TD
+><TD
+>subtraction (-)</TD
+></TR
+><TR
+><TD
+>03</TD
+><TD
+>multiplication (*)</TD
+></TR
+><TR
+><TD
+>04</TD
+><TD
+>division (/)</TD
+></TR
+><TR
+><TD
+>05</TD
+><TD
+>modulus (%)</TD
+></TR
+><TR
+><TD
+>06</TD
+><TD
+>integer division (\) (same as division)</TD
+></TR
+><TR
+><TD
+>07</TD
+><TD
+>bitwise and</TD
+></TR
+><TR
+><TD
+>08</TD
+><TD
+>bitwise or</TD
+></TR
+><TR
+><TD
+>09</TD
+><TD
+>bitwise xor</TD
+></TR
+><TR
+><TD
+>0A</TD
+><TD
+>boolean and</TD
+></TR
+><TR
+><TD
+>0B</TD
+><TD
+>boolean or</TD
+></TR
+><TR
+><TD
+>0C</TD
+><TD
+>unary negation, 2's complement (-)</TD
+></TR
+><TR
+><TD
+>0D</TD
+><TD
+>unary 1's complement (^)</TD
+></TR
+></TBODY
+></TABLE
+></DIV
+><P
+>An expression is represented in a postfix manner with both operands for
+binary operators preceding the operator and the single operand for unary
+operators preceding the operator.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c1011.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>&nbsp;</TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Libraries and LWAR</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>&nbsp;</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

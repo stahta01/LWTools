@@ -1,0 +1,43 @@
+LWASM 2.0
+=========
+
+LWASM is a cross-assembler for the MC6809 and HD6309 CPUs. It should
+assemble most reasonable EDTASM compatible source code. This document is not
+intended to teach assembly language for these CPUs but rather to document
+the behaviour of LWASM.
+
+
+TARGETS
+-------
+
+LWASM supports several targets for assembly. These are decb, raw, and obj.
+
+The raw target generates a raw binary output. This is useful for building
+ROMs and other items that are not intended to be loaded by any kind of
+loader. In this mode, the ORG directive is merely advisory and does not
+affect the output except for the addresses symbols are defined to have.
+
+The decb target generates output that can be loaded with the CLOADM or LOADM
+commands in Color Basic. There will be approximately one segment in the
+output file for every ORG statement after which any code is emitted. (That
+is, two ORG statements in a row will not generate two output segments.)
+This is approximately equivalent to running A/AO in EDTASM.
+
+The obj target generates output that is intended to be linked later with
+LWLINK. This target disallows the use of ORG for defining anything other
+than constants. In this target, source files consist of a number of sections
+(SECTION/ENDSECTION). Nothing outside of a section is permitted to cause any
+output at all. Use of an ORG statement within a section is an error. This
+target also permits tagging symbols for export (EXPORT) and marking a symbol
+as externally defined (IMPORT/EXTERN). The linker will resolve any external
+references at link time. Additionally, any inter-section references will be
+resolved by the linker. All code in each section is assembled with an
+implicit origin of 0. SETDP has no effect because the assembler has no idea
+what address the linker will assign to the code when it is linked. Any
+direct addressing modes will default to extended to allow for the linker to
+perform relocations. Intersegment references and external references will
+use 16 bit relative addressing but intrasegment internal references may use
+8 bit relative addressing. Forced 8 bit direct modes are probably an error
+but are permitted on the theory that the programmer might know something the
+assembler doesn't.
+

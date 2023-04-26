@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Format Specific Linking Notes</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWLINK"
+HREF="c816.html"><LINK
+REL="PREVIOUS"
+TITLE="Linking Scripts"
+HREF="x930.html"><LINK
+REL="NEXT"
+TITLE="Libraries and LWAR"
+HREF="c1011.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x930.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. LWLINK</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="c1011.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN996"
+>4.4. Format Specific Linking Notes</A
+></H1
+><P
+>Some formats require special information to be able to generate actual
+binaries.  If the specific format you are interested in is not listed in
+this section, then there is nothing special you need to know about to create
+a final binary.</P
+><DIV
+CLASS="SECTION"
+><H2
+CLASS="SECTION"
+><A
+NAME="AEN999"
+>4.4.1. OS9 Modules</A
+></H2
+><P
+>OS9 modules need to embed several items into the module header. These
+items are the type of module, the langauge of the module, the module
+attributes, the module revision number, the data size (bss), and the
+execution offset.  These are all either calculated or default to reasonable
+values.</P
+><P
+>The data size is calcuated as the sum of all sections named "bss" or
+".bss" in all object files that are linked together.</P
+><P
+>The execution offset is calculated from the address of the special
+symbol "__start" which must be an exported (external) symbol in one of the
+objects to be linked.</P
+><P
+>The type defaults to "Prgrm" or "Program module". The language
+defaults to "Objct" or "6809 object code".  Attributes default to enabling
+the re-entrant flag.  And finally, the revision defaults to zero.</P
+><P
+>The embedded module name is the output filename. If the output
+filename includes more than just the filename, this will probably not be
+what you want.</P
+><P
+>The type, language, attributes, revision, and module name can all be
+overridden by providing a special section in exactly one of the object files
+to be linked.  This section is called "__os9" (note the two underscores). 
+To override the type, language, attributes, or revision values, define a
+non-exported symbol in this section called "type", "lang", "attr", or "rev"
+respectively.  Any other symbols defined are ignored.  To override the
+module name, include as the only actual code in the section a NUL terminated
+string (the FCN directive is useful for this).  If there is no code in the
+section or it beings with a NUL, the default name will be used.  Any of the
+preceeding that are not defined in the special section will retain their
+default values.</P
+><P
+>The built-in link script for OS9 modules will place the following
+sections, in order, in the module: "code", ".text", "data", ".data".  It
+will merge all sections with the name "bss" or ".bss" into the "data"
+section.  All other section names are ignored.  What this means is that you
+must define your data variables in the a section called "bss" or ".bss" even
+though you will be refencing them all as offsets from U.  This does have the
+unpleasant side effect that all BSS references will end up being 16 bit
+offsets because the assembler cannot know what the offset will be once the
+linker is finished its work.  Thus, if the tightest possible code is
+required, having LWASM directly output the module is a better choice.</P
+><P
+>While the built-in link script is probably sufficient for most
+purposes, you can provide your own script.  If you provide a custom link
+script, you must start your code and data sections at location 000D to
+accommodate the module header.  Otherwise, you will have an incorrect
+location for the execution offset.  You must use the ENTRY directive in the
+script to define the entry point for the module.</P
+><P
+>It should also be obvious from the above that you cannot mix the bss
+(rmb) definitions with the module code when linking separately.  Those
+familiar with typical module creation will probably find this an unpleasant
+difference but it is unavoidable.</P
+><P
+>It should also be noted that direct page references should also be
+avoided because you cannot know ahead of time whether the linker is going to
+end up putting a particular variable in the first 256 bytes of the module's
+data space.  If, however, you know for certain you will have less than 256
+bytes of defined data space across all of the object files that will be
+linked, you can instead use forced DP addressing for your data addresses
+instead of the ,u notation.  When linking with 3rd party libraries, this
+practice should be avoided.  Also, when creating libraries, always use the
+offset from U technique.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x930.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c1011.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Linking Scripts</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c816.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Libraries and LWAR</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

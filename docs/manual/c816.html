@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>LWLINK</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="Cycle Counts"
+HREF="x810.html"><LINK
+REL="NEXT"
+TITLE="Linker Operation"
+HREF="x916.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x810.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x916.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN816"
+></A
+>Chapter 4. LWLINK</H1
+><P
+>The LWTOOLS linker is called LWLINK. This chapter documents the various features
+of the linker.</P
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN819"
+>4.1. Command Line Options</A
+></H1
+><P
+>The binary for LWLINK is called "lwlink". Note that the binary is in lower
+case. lwlink takes the following command line arguments.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><CODE
+CLASS="OPTION"
+>--decb</CODE
+>, <CODE
+CLASS="OPTION"
+>-b</CODE
+></DT
+><DD
+><P
+>Selects the DECB output format target. This is equivalent to <CODE
+CLASS="OPTION"
+>--format=decb</CODE
+></P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--output=FILE</CODE
+>, <CODE
+CLASS="OPTION"
+>-o FILE</CODE
+></DT
+><DD
+><P
+>This option specifies the name of the output file. If not specified, the
+default is <CODE
+CLASS="OPTION"
+>a.out</CODE
+>.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--format=TYPE</CODE
+>, <CODE
+CLASS="OPTION"
+>-f TYPE</CODE
+></DT
+><DD
+><P
+>This option specifies the output format. Valid values are <CODE
+CLASS="OPTION"
+>decb</CODE
+>
+and <CODE
+CLASS="OPTION"
+>raw</CODE
+></P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--raw</CODE
+>, <CODE
+CLASS="OPTION"
+>-r</CODE
+></DT
+><DD
+><P
+>This option specifies the raw output format.
+It is equivalent to <CODE
+CLASS="OPTION"
+>--format=raw</CODE
+>
+and <CODE
+CLASS="OPTION"
+>-f raw</CODE
+></P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--script=FILE</CODE
+>, <CODE
+CLASS="OPTION"
+>-s</CODE
+></DT
+><DD
+><P
+>This option allows specifying a linking script to override the linker's
+built in defaults.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--section-base=SECT=BASE</CODE
+></DT
+><DD
+><P
+>Cause section SECT to load at base address BASE. This will be prepended
+to the built-in link script. It is ignored if a link script is provided.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--map=FILE</CODE
+>, <CODE
+CLASS="OPTION"
+>-m FILE</CODE
+></DT
+><DD
+><P
+>This will output a description of the link result to FILE.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--library=LIBSPEC</CODE
+>, <CODE
+CLASS="OPTION"
+>-l LIBSPEC</CODE
+></DT
+><DD
+><P
+>Load a library using the library search path. If LIBSPEC is prefixed with a
+colon (":"), then LIBSPEC is the precise filename to be searched for in the
+library path. Otherwise, LIBSPEC will have "lib" prepended and ".a" appended.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--library-path=DIR</CODE
+>, <CODE
+CLASS="OPTION"
+>-L DIR</CODE
+></DT
+><DD
+><P
+>Add DIR to the library search path.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--debug</CODE
+>, <CODE
+CLASS="OPTION"
+>-d</CODE
+></DT
+><DD
+><P
+>This option increases the debugging level. It is only useful for LWTOOLS
+developers.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--help</CODE
+>, <CODE
+CLASS="OPTION"
+>-?</CODE
+></DT
+><DD
+><P
+>This provides a listing of command line options and a brief description
+of each.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--usage</CODE
+></DT
+><DD
+><P
+>This will display a usage summary
+of each command line option.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--version</CODE
+>, <CODE
+CLASS="OPTION"
+>-V</CODE
+></DT
+><DD
+><P
+>This will display the version of LWLINK.</P
+></DD
+></DL
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x810.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x916.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Cycle Counts</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Linker Operation</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

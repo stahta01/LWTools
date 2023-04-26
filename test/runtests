@@ -1,0 +1,92 @@
+#!/usr/bin/env perl
+#
+# This program will execute all programs in the "tests" directory. Each
+# program is expected to produce output as follows on stdout:
+#
+# each line begins with a test name followed by whitespace followed by
+# PASS, FAIL, or SKIP.
+#
+# stderr is not redirected during testing. Any test that might spam stderr
+# is encouraged to redirect it somewhere useful.
+#
+# After each test script exits, a report indicating number passed, failed,
+# and skipped is presented, or if the script failed to run.
+#
+# Once all tests have been run, a report showing the grand total number of
+# tests performed, passed, failed, and skipped.
+#
+# Each test can be in any programming language that is appropriate for
+# the task.
+#
+# Each test can assume the current directory is the root of the source tree.
+
+use File::Basename;
+
+$testdir = dirname($0) . '/tests';
+
+opendir DH, $testdir;
+while ($fe = readdir DH)
+{
+	next if ($fe =~ /^\./);
+	next if ($fe =~ /~$/);
+	
+	$fn = $testdir . '/' . $fe;
+
+	open P,"$fn|";
+	while (<P>)
+	{
+		chomp;
+		($tn, $ts) = split /\s+/;
+		$testresults{$fe}{$tn} = $ts;
+		if ($ts eq 'PASS')
+		{
+			$testspassed += 1;
+			$testresults{$fe}{'..passed'} += 1;
+		}
+		elsif ($ts eq 'FAIL')
+		{
+			$testsfailed += 1;
+			$testresults{$fe}{'..failed'} =+ 1;
+		}
+		elsif ($ts eq 'SKIP')
+		{
+			$testsskipped += 1;
+			$testresults{$fe}{'..skipped'} += 1;
+		}
+		else
+		{
+			$testsunknown += 1;
+			$testresults{$fe}{'..unknown'} += 1;
+		}
+		$teststotal += 1;
+		$testresults{$fe}{'..total'} += 1;
+	}
+	close P;
+	$fdn = $fe;
+	$fdn =~ s/\..+?$//;
+	$rline = sprintf("%-25.25s: %d/%d (%d skipped, %d unknown, %d failed)",  $fdn, $testresults{$fe}{'..passed'}, $testresults{$fe}{'..total'}, $testresults{$fe}{'..skipped'}, $testresults{$fe}{'..unknown'}, $testresults{$fe}{'..failed'});
+	print "$rline\n";
+}
+closedir DH;
+
+print sprintf("\n===================\nTotal: %d/%d (%d skipped, %d unknown, %d failed)\n", $testspassed, $teststotal, $testsskipped, $testsunknown, $testsfailed);
+
+if ($testspassed < $teststotal)
+{
+	print "\nThe following tests either failed or were otherwise dubious:\n";
+	foreach $i (keys %testresults)
+	{
+		$fdn = $i;
+		$fdn =~ s/\..+?$//;
+		foreach $j (keys %{ $testresults{$i} })
+		{
+			next if $j =~ /^\./;
+			if ($testresults{$i}{$j} ne 'PASS')
+			{
+				print "$fdn/$j: $testresults{$i}{$j}\n";
+			}
+		}
+	}
+	exit 1;
+}
+exit 0;

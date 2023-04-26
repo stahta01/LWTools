@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Libraries and LWAR</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="Format Specific Linking Notes"
+HREF="x996.html"><LINK
+REL="NEXT"
+TITLE="Object Files"
+HREF="c1073.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x996.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="c1073.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN1011"
+></A
+>Chapter 5. Libraries and LWAR</H1
+><P
+>LWTOOLS also includes a tool for managing libraries. These are analogous to
+the static libraries created with the "ar" tool on POSIX systems. Each library
+file contains one or more object files. The linker will treat the object
+files within a library as though they had been specified individually on
+the command line except when resolving external references. External references
+are looked up first within the object files within the library and then, if
+not found, the usual lookup based on the order the files are specified on
+the command line occurs.</P
+><P
+>The tool for creating these libary files is called LWAR.</P
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN1015"
+>5.1. Command Line Options</A
+></H1
+><P
+>The binary for LWAR is called "lwar". Note that the binary is in lower
+case. The options lwar understands are listed below. For archive manipulation
+options, the first non-option argument is the name of the archive. All other
+non-option arguments are the names of files to operate on.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><CODE
+CLASS="OPTION"
+>--add</CODE
+>, <CODE
+CLASS="OPTION"
+>-a</CODE
+></DT
+><DD
+><P
+>This option specifies that an archive is going to have files added to it.
+If the archive does not already exist, it is created. New files are added
+to the end of the archive.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--create</CODE
+>, <CODE
+CLASS="OPTION"
+>-c</CODE
+></DT
+><DD
+><P
+>This option specifies that an archive is going to be created and have files
+added to it. If the archive already exists, it is truncated.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--merge</CODE
+>, <CODE
+CLASS="OPTION"
+>-m</CODE
+></DT
+><DD
+><P
+>If specified, any files specified to be added to an archive will be checked
+to see if they are archives themselves. If so, their constituent members are
+added to the archive. This is useful for avoiding archives containing archives.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--list</CODE
+>, <CODE
+CLASS="OPTION"
+>-l</CODE
+></DT
+><DD
+><P
+>This will display a list of the files contained in the archive.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--debug</CODE
+>, <CODE
+CLASS="OPTION"
+>-d</CODE
+></DT
+><DD
+><P
+>This option increases the debugging level. It is only useful for LWTOOLS
+developers.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--help</CODE
+>, <CODE
+CLASS="OPTION"
+>-?</CODE
+></DT
+><DD
+><P
+>This provides a listing of command line options and a brief description
+of each.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--usage</CODE
+></DT
+><DD
+><P
+>This will display a usage summary
+of each command line option.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--version</CODE
+>, <CODE
+CLASS="OPTION"
+>-V</CODE
+></DT
+><DD
+><P
+>This will display the version of LWLINK.
+of each.</P
+></DD
+></DL
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x996.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c1073.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Format Specific Linking Notes</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Object Files</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

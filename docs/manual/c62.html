@@ -1,0 +1,463 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>LWASM</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="PREVIOUS"
+TITLE="Object Files"
+HREF="x54.html"><LINK
+REL="NEXT"
+TITLE="Dialects"
+HREF="x218.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x54.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x218.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN62"
+></A
+>Chapter 3. LWASM</H1
+><P
+>The LWTOOLS assembler is called LWASM. This chapter documents the various
+features of the assembler. It is not, however, a tutorial on 6x09 assembly
+language programming.</P
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN65"
+>3.1. Command Line Options</A
+></H1
+><P
+>The binary for LWASM is called "lwasm". Note that the binary is in lower
+case. lwasm takes the following command line arguments.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><CODE
+CLASS="OPTION"
+>--6309</CODE
+>, <CODE
+CLASS="OPTION"
+>-3</CODE
+></DT
+><DD
+><P
+>This will cause the assembler to accept the additional instructions available
+on the 6309 processor. This is the default mode; this option is provided for
+completeness and to override preset command arguments.</P
+><P
+>This option is the same as if the first line of the source code is "PRAGMA 6309".</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--6800compat</CODE
+></DT
+><DD
+><P
+>This is equivalent to <CODE
+CLASS="OPTION"
+>--pragma=6800compat</CODE
+>.</P
+><P
+>This will enable recognition of 6800 compatibility instructions.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--6809</CODE
+>, <CODE
+CLASS="OPTION"
+>-9</CODE
+></DT
+><DD
+><P
+>This will cause the assembler to reject instructions that are only available
+on the 6309 processor. This actually has the effect of starting the assembler
+as though the first line of the source is "PRAGMA 6809".</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--decb</CODE
+>, <CODE
+CLASS="OPTION"
+>-b</CODE
+></DT
+><DD
+><P
+>Select the DECB output format target. Equivalent to <CODE
+CLASS="OPTION"
+>--format=decb</CODE
+>.</P
+><P
+>While this is the default output format currently, it is not safe to rely
+on that fact. Future versions may have different defaults. It is also trivial
+to modify the source code to change the default. Thus, it is recommended to specify
+this option if you need DECB output.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--format=type</CODE
+>, <CODE
+CLASS="OPTION"
+>-f type</CODE
+></DT
+><DD
+><P
+>Select the output format. Valid values are <CODE
+CLASS="OPTION"
+>obj</CODE
+> for the
+object file target, <CODE
+CLASS="OPTION"
+>decb</CODE
+> for the DECB LOADM format,
+<CODE
+CLASS="OPTION"
+>os9</CODE
+> for creating OS9 modules, <CODE
+CLASS="OPTION"
+>raw</CODE
+> for
+a raw binary, <CODE
+CLASS="OPTION"
+>hex</CODE
+> for ASCII hexadecminal format, 
+<CODE
+CLASS="OPTION"
+>srec</CODE
+> for Motorola S-Record format, and <CODE
+CLASS="OPTION"
+>ihex</CODE
+>
+ for Intel Hex format.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--list[=file]</CODE
+>, <CODE
+CLASS="OPTION"
+>-l[file]</CODE
+></DT
+><DD
+><P
+>Cause LWASM to generate a listing. If <CODE
+CLASS="OPTION"
+>file</CODE
+> is specified,
+the listing will go to that file. Otherwise it will go to the standard output
+stream. By default, no listing is generated. Unless <CODE
+CLASS="OPTION"
+>--symbols</CODE
+>
+is specified, the list will not include the symbol table.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--symbols</CODE
+>, <CODE
+CLASS="OPTION"
+>-s</CODE
+></DT
+><DD
+><P
+>Causes LWASM to generate a list of symbols when generating a listing.
+It has no effect unless a listing is being generated.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--symbols-nolocals</CODE
+></DT
+><DD
+><P
+>Behaves just like <CODE
+CLASS="OPTION"
+>--symbols</CODE
+> but with local labels omitted.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--map=FILE</CODE
+></DT
+><DD
+><P
+>&#13;This option generates a map file which can be used by debuggers and monitors to provide symbol information. A map file may be created independent of a listing file. (Patches are pending for MAME and exec09.)&#13;</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--obj</CODE
+></DT
+><DD
+><P
+>Select the proprietary object file format as the output target.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--output=FILE</CODE
+>, <CODE
+CLASS="OPTION"
+>-o FILE</CODE
+></DT
+><DD
+><P
+>This option specifies the name of the output file. If not specified, the
+default is <CODE
+CLASS="OPTION"
+>a.out</CODE
+>.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--pragma=pragma</CODE
+>, <CODE
+CLASS="OPTION"
+>-p pragma</CODE
+></DT
+><DD
+><P
+>Specify assembler pragmas. Multiple pragmas are separated by commas. The
+pragmas accepted are the same as for the PRAGMA assembler directive described
+below.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--raw</CODE
+>, <CODE
+CLASS="OPTION"
+>-r</CODE
+></DT
+><DD
+><P
+>Select raw binary as the output target.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--includedir=path</CODE
+>, <CODE
+CLASS="OPTION"
+>-I path</CODE
+></DT
+><DD
+><P
+>Add <CODE
+CLASS="OPTION"
+>path</CODE
+> to the end of the include path.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--define=SYM[=VAL]</CODE
+>, <CODE
+CLASS="OPTION"
+>-D SYM[=VAL]</CODE
+></DT
+><DD
+><P
+>Pre-defines the symbol SYM as either the specified VAL. If VAL is omitted,
+the symbol is defined as 1.  The symbol will be defined as though it were
+defined using the SET directive in the assembly source.  That means it can
+be overridden by a SET directive within the source code.  Attempting to
+redefine SYM using EQU will result in a multiply defined symbol error.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>-t WIDTH</CODE
+>, <CODE
+CLASS="OPTION"
+>--tabs=WIDTH</CODE
+></DT
+><DD
+><P
+>Specifies the handling of tabs in listing files. <CODE
+CLASS="OPTION"
+>--tabs=0</CODE
+>
+disables tab expansion. <CODE
+CLASS="OPTION"
+>--tabs=8</CODE
+> is the default setting.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--help</CODE
+>, <CODE
+CLASS="OPTION"
+>-?</CODE
+></DT
+><DD
+><P
+>Present a help screen describing the command line options.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--usage</CODE
+></DT
+><DD
+><P
+>Provide a summary of the command line options.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--version</CODE
+>, <CODE
+CLASS="OPTION"
+>-V</CODE
+></DT
+><DD
+><P
+>Display the software version.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--debug</CODE
+>, <CODE
+CLASS="OPTION"
+>-d</CODE
+></DT
+><DD
+><P
+>Increase the debugging level. Only really useful to people hacking on the
+LWASM source code itself.</P
+></DD
+></DL
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x54.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x218.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Object Files</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Dialects</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

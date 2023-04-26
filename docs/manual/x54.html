@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Object Files</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Output Formats"
+HREF="c21.html"><LINK
+REL="PREVIOUS"
+TITLE="OS9 Modules"
+HREF="x46.html"><LINK
+REL="NEXT"
+TITLE="LWASM"
+HREF="c62.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x46.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 2. Output Formats</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="c62.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN54"
+>2.7. Object Files</A
+></H1
+><P
+>LWASM supports generating a proprietary object file format which is
+described in <A
+HREF="c1073.html"
+>Chapter 6</A
+>. LWLINK is then used to link these
+object files into a final binary in any of LWLINK's supported binary
+formats.</P
+><P
+>Object files also support the concept of sections which are not valid
+for other output types. This allows related code from each object file
+linked to be collapsed together in the final binary.</P
+><P
+>Object files are very flexible in that they allow references that are not
+known at assembly time to be resolved at link time.  However, because the
+addresses of such references are not known at assembly time, there is no way
+for the assembler to deduce that an eight bit addressing mode is possible. 
+That means the assember will default to using sixteen bit addressing
+whenever an external or cross-section reference is used.</P
+><P
+>As of LWASM 2.4, it is possible to force direct page addressing for an
+external reference.  Care must be taken to ensure the resulting addresses
+are really in the direct page since the linker does not know what the direct
+page is supposed to be and does not emit errors for byte overflows.</P
+><P
+>It is also possible to use external references in an eight bit immediate
+mode instruction.  In this case, only the low order eight bits will be used. 
+Again, no byte overflows will be flagged.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x46.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c62.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>OS9 Modules</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c21.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>LWASM</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

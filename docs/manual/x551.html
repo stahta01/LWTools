@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Macros</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWASM"
+HREF="c62.html"><LINK
+REL="PREVIOUS"
+TITLE="Assembler Directives"
+HREF="x250.html"><LINK
+REL="NEXT"
+TITLE="Structures"
+HREF="x574.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x250.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 3. LWASM</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x574.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN551"
+>3.7. Macros</A
+></H1
+><P
+>LWASM is a macro assembler. A macro is simply a name that stands in for a
+series of instructions. Once a macro is defined, it is used like any other
+assembler directive. Defining a macro can be considered equivalent to adding
+additional assembler directives.</P
+><P
+>Macros may accept parameters. These parameters are referenced within a
+macro by the a backslash ("\") followed by a digit 1 through 9 for the first
+through ninth parameters. They may also be referenced by enclosing the
+decimal parameter number in braces ("{num}"). The special expansion "\*"
+translates to the exact parameter string, including all parameters, passed
+to the macro. These parameter references are replaced with the verbatim text
+of the parameter passed to the macro. A reference to a non-existent
+parameter will be replaced by an empty string. Macro parameters are expanded
+everywhere on each source line. That means the parameter to a macro could be
+used as a symbol or it could even appear in a comment or could cause an
+entire source line to be commented out when the macro is expanded. </P
+><P
+>Parameters passed to a macro are separated by commas and the parameter list
+is terminated by any whitespace. This means that neither a comma nor whitespace
+may be included in a macro parameter.</P
+><P
+>Macro expansion is done recursively. That is, within a macro, macros are
+expanded. This can lead to infinite loops in macro expansion. If the assembler
+hangs for a long time while assembling a file that uses macros, this may be
+the reason.</P
+><P
+>Each macro expansion receives its own local symbol context which is not
+inherited by any macros called by it nor is it inherited from the context
+the macro was instantiated in. That means it is possible to use local symbols
+within macros without having them collide with symbols in other macros or
+outside the macro itself. However, this also means that using a local symbol
+as a parameter to a macro, while legal, will not do what it would seem to do
+as it will result in looking up the local symbol in the macro's symbol context
+rather than the enclosing context where it came from, likely yielding either
+an undefined symbol error or bizarre assembly results.</P
+><P
+>Note that there is no way to define a macro as local to a symbol context. All
+macros are part of the global macro namespace. However, macros have a separate
+namespace from symbols so it is possible to have a symbol with the same name
+as a macro.</P
+><P
+>Macros are defined only during the first pass. Macro expansion also
+only occurs during the first pass. On the second pass, the macro
+definition is simply ignored. Macros must be defined before they are used.</P
+><P
+>The following directives are used when defining macros.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><CODE
+CLASS="PARAMETER"
+>macroname</CODE
+> MACRO [NOEXPAND]</DT
+><DD
+><P
+>This directive is used to being the definition of a macro called
+<CODE
+CLASS="PARAMETER"
+>macroname</CODE
+>. If <CODE
+CLASS="PARAMETER"
+>macroname</CODE
+> already
+exists, it is considered an error. Attempting to define a macro within a
+macro is undefined. It may work and it may not so the behaviour should not
+be relied upon.</P
+><P
+>If NOEXPAND is specified, the macro will not be expanded in a program
+listing. Instead, all bytes emitted by all instructions within the macro
+will appear to be emitted on the line where the macro is invoked, starting
+at the address of the line of the invokation. If the macro uses ORG or other
+directives that define symbols or change the assembly address, these things
+will also be hidden (except in the symbol table) and the output bytes will
+appear with incorrect address attribution. Thus, NOEXPAND should only be
+used for macros that do not mess with the assembly address or otherwise
+define symbols that should be visible.</P
+></DD
+><DT
+>ENDM</DT
+><DD
+><P
+>This directive indicates the end of the macro currently being defined. It
+causes the assembler to resume interpreting source lines as normal.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x250.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x574.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Assembler Directives</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c62.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Structures</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

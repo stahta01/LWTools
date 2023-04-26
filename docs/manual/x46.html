@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>OS9 Modules</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Output Formats"
+HREF="c21.html"><LINK
+REL="PREVIOUS"
+TITLE="Intel Hex"
+HREF="x41.html"><LINK
+REL="NEXT"
+TITLE="Object Files"
+HREF="x54.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x41.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 2. Output Formats</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x54.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN46"
+>2.6. OS9 Modules</A
+></H1
+><P
+>&#13;Since version 2.5, LWASM is able to generate OS9 modules. The syntax is
+basically the same as for other assemblers.  A module starts with the MOD
+directive and ends with the EMOD directive.  The OS9 directive is provided
+as a shortcut for writing system calls.&#13;</P
+><P
+>&#13;LWASM does NOT provide an OS9Defs file. You must provide your own. Also note
+that the common practice of using "ifp1" around the inclusion of the OS9Defs
+file is discouraged as it is pointless and can lead to unintentional
+problems and phasing errors.  Because LWASM reads each file exactly once,
+there is no benefit to restricting the inclusion to the first assembly pass.&#13;</P
+><P
+>&#13;As of version 4.5, LWASM also implements the standard data/code address
+streams for OS9 modules.  That means that between MOD and EMOD, any RMB,
+RMD, RMQ, or equivalent directives will move the data address ahead and
+leave the code address unmodified.  Outside of an actual module, both the
+code and data addresses are moved ahead equally.  That last bit is critical
+to understand because it means any directives that follow an EMOD directive
+may have different results than other assemblers.&#13;</P
+><P
+>&#13;Additionally, within a module body, the ORG directive sets only the data
+address, not the code address. However, outside a module body, ORG sets both
+addresses.&#13;</P
+><P
+>Both code and data addresses are reset to 0 by the MOD directive.</P
+><P
+>&#13;As of version 4.5, LWLINK also supports creation of OS9 modules.&#13;</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x41.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x54.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Intel Hex</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c21.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Object Files</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

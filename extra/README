@@ -1,0 +1,110 @@
+These files are extra utility type scripts that can be used for various
+purposes.
+
+as
+
+This is a sort of front-end script that makes lwasm look approximately like
+gnu as which is useful for using lwasm as a backend to gcc.  You may need to
+edit it to make it work fully.
+
+ld
+
+Similar to the "as" script above except for lwlink.
+
+
+ar
+
+Similar to the "as" script above except for lwar.
+
+gcc6809lw-*.patch
+
+These are patches to the main gcc source distribution for specific releases. 
+The last number after the dash is a patch level for the specific patch. It
+is worth noting that a patch for a particular minor version of GCC may work
+with later minor versions in the same release sequence. That is, a patch
+for 4.6.1 might work with 4.6.4. These are different to the official
+gcc6809 releases in the following ways. First, all the source for as-6809
+is removed. Also, the special "helper" makefile and directory is removed. 
+Also, as of this writing, the latest "official" release was for gcc 4.3.4
+which does not build on 64 bit linux.
+
+In the event you have used the "official" gcc6809 with the default as6809
+assembler that comes with it, you should be aware that while lwasm is mostly
+compatible with it syntax wise, there are differences, particularly in
+pseudo operations and source line syntax (most notably that you must have
+whitespace preceeding assembler directives and instructions).  You will
+likely not run into these unless you are using inline asm. Refer to the
+lwtools documentation for the specific line format required by lwasm.
+
+It is worth noting that neither gcc6809 nor lwtools comes with a standard C
+library.
+
+It is also worth noting that for many projects, it will be more flexible to
+invoke lwlink directly rather than using the ld script or gcc as a front
+end. See the lwtools documentation for details on using lwlink.
+
+To use these scripts, you really need to understand how to build a gcc as a
+cross compiler. The basics are that you put the as, ld, and ar scripts
+whereever you plan to put your cross-development binaries. Then, when
+building the cross compiler, you tell it where the scripts are.
+
+Please note that the following recipe is an example only. If you are
+planning to install multiple instances of gcc6809 for different targets, you
+will most certainly need to modify the steps below. Providing a complete
+understanding of building a gcc toolchain for cross compilation is well
+beyond the scope of this document.
+
+The following works for a single installation.
+
+1. Install the ar, as, and ld scripts named m6809-unknown-{as,ar,ld} in a
+directory in your path, say /usr/local/coco/bin/.
+
+2. Make symbolic links to /bin/true for similarly named nm, objdump, ranlib,
+and strip in the same directory  Some of these may not be necessary.
+
+3. Unpack gcc and apply the gcc6809 patch. The gcc6809lw* patch file
+in this directory is known to work with these instructions.
+
+4. Make sure /usr/local/coco/bin is in your PATH
+
+5. Make sure "." is NOT in your path or is at the END of PATH. If you have
+gazillions of errors pop up compiling "gemodes.c", this is your problem.
+
+6. In a directory (other than the gcc source, say "gcc-build" at the same
+level as the main gcc directory, do (assuming gcc 4.3.4):
+
+configure --enable-languages=c --target=m6809-unknown \
+--program-prefix=m6809-unknown- --enable-obsolete \
+--srcdir=../gcc-4.3.4 --disable-threads --disable-nls \
+--disable-libssp --prefix=/usr/local/coco \
+--with-as=/usr/local/coco/bin/m6809-unknown-as \
+--with-ld=/usr/local/coco/bin/m6809-unknown-ld \
+--with-ar=/usr/local/coco/bin/m6809-unknown-ar
+
+NOTE: the last three are required to prevent selection of the wrong binutils
+programs at runtime.
+
+--with-sysroot might be useful if you have a C library involved.
+
+7. Run "make". If errors appear, troubleshoot.
+
+8. Run "make install". Note that you will have to have your PATH variable
+for "root" set up correctly if your install prefix requires root privileges.
+
+The above is WOMM certified. YMMV.
+
+NOTES ABOUT SPECIFIC PATCHES
+============================
+
+Old gcc6809 patches have been removed to avoid confusion.
+
+The -6 patch fixes a code generation ICE. The previous -4 patch fixed a code
+generation error that could have a substantial impact. The -3 patch fixed
+some compatibilty with new lwtools versions. The -2 patch fixed a major set
+of ICEs by completely removing the "soft registers" business. They're
+apparently not needed with gcc 4.6.x at all and it's not clear they were
+even needed with gcc 4.3.x. They also had the side effect of causing things
+to break even if they weren't in use so they had to go. In other words, the
+-6 patch is the current best version to use so there's no point including
+the old ones.
+

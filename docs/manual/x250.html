@@ -1,0 +1,884 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Assembler Directives</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="HOME"
+TITLE="LW Tool Chain"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="LWASM"
+HREF="c62.html"><LINK
+REL="PREVIOUS"
+TITLE="Numbers and Expressions"
+HREF="x242.html"><LINK
+REL="NEXT"
+TITLE="Macros"
+HREF="x551.html"></HEAD
+><BODY
+CLASS="SECTION"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>LW Tool Chain</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x242.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 3. LWASM</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x551.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECTION"
+><H1
+CLASS="SECTION"
+><A
+NAME="AEN250"
+>3.6. Assembler Directives</A
+></H1
+><P
+>Various directives can be used to control the behaviour of the
+assembler or to include non-code/data in the resulting output. Those directives
+that are not described in detail in other sections of this document are
+described below.</P
+><DIV
+CLASS="SECTION"
+><H2
+CLASS="SECTION"
+><A
+NAME="AEN253"
+>3.6.1. Data Directives</A
+></H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>FCB <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+>, .DB <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+>, .BYTE <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+></DT
+><DD
+><P
+>Include one or more constant bytes (separated by commas) in the output.</P
+></DD
+><DT
+>FDB <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+>, .DW <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+>, .WORD <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+></DT
+><DD
+><P
+>Include one or more words (separated by commas) in the output.</P
+></DD
+><DT
+>FQB <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+>, .QUAD <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+>, .4BYTE <CODE
+CLASS="PARAMETER"
+>expr[,...]</CODE
+></DT
+><DD
+><P
+>Include one or more double words (separated by commas) in the output.</P
+></DD
+><DT
+>FCC <CODE
+CLASS="PARAMETER"
+>string</CODE
+>, .ASCII <CODE
+CLASS="PARAMETER"
+>string</CODE
+>, .STR <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>Include a string of text in the output. The first character of the operand
+is the delimiter which must appear as the last character and cannot appear
+within the string. The string is included with no modifications&#62;</P
+></DD
+><DT
+>FCN <CODE
+CLASS="PARAMETER"
+>string</CODE
+>, .ASCIZ <CODE
+CLASS="PARAMETER"
+>string</CODE
+>, .STRZ <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>Include a NUL terminated string of text in the output. The first character of
+the operand is the delimiter which must appear as the last character and
+cannot appear within the string. A NUL byte is automatically appended to
+the string.</P
+></DD
+><DT
+>FCS <CODE
+CLASS="PARAMETER"
+>string</CODE
+>, .ASCIS <CODE
+CLASS="PARAMETER"
+>string</CODE
+>, .STRS <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>Include a string of text in the output with bit 7 of the final byte set. The
+first character of the operand is the delimiter which must appear as the last
+character and cannot appear within the string.</P
+></DD
+><DT
+>ZMB <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Include a number of NUL bytes in the output. The number must be fully resolvable
+during pass 1 of assembly so no forward or external references are permitted.</P
+></DD
+><DT
+>ZMD <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Include a number of zero words in the output. The number must be fully
+resolvable during pass 1 of assembly so no forward or external references are
+permitted.</P
+></DD
+><DT
+>ZMQ <CODE
+CLASS="PARAMETER"
+>expr<CODE
+CLASS="PARAMETER"
+></CODE
+></CODE
+></DT
+><DD
+><P
+>Include a number of zero double-words in the output. The number must be fully
+resolvable during pass 1 of assembly so no forward or external references are
+permitted.</P
+></DD
+><DT
+>RMB <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>, .BLKB <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>, .DS <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>, .RS <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Reserve a number of bytes in the output. The number must be fully resolvable
+during pass 1 of assembly so no forward or external references are permitted.
+The value of the bytes is undefined.</P
+></DD
+><DT
+>RMD <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Reserve a number of words in the output. The number must be fully
+resolvable during pass 1 of assembly so no forward or external references are
+permitted. The value of the words is undefined.</P
+></DD
+><DT
+>RMQ <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Reserve a number of double-words in the output. The number must be fully
+resolvable during pass 1 of assembly so no forward or external references are
+permitted. The value of the double-words is undefined.</P
+></DD
+><DT
+>INCLUDEBIN <CODE
+CLASS="PARAMETER"
+>filename</CODE
+></DT
+><DD
+><P
+>Treat the contents of <CODE
+CLASS="PARAMETER"
+>filename</CODE
+> as a string of bytes to
+be included literally at the current assembly point. This has the same effect
+as converting the file contents to a series of FCB statements and including
+those at the current assembly point.</P
+><P
+> If <CODE
+CLASS="PARAMETER"
+>filename</CODE
+> beings with a /, the file name
+will be taken as absolute.  Otherwise, the current directory will be
+searched followed by the search path in the order specified.</P
+><P
+> Please note that absolute path detection including drive letters will
+not function correctly on Windows platforms.  Non-absolute inclusion will
+work, however.</P
+></DD
+><DT
+>FILL <CODE
+CLASS="PARAMETER"
+>byte</CODE
+>,<CODE
+CLASS="PARAMETER"
+>size</CODE
+></DT
+><DD
+><P
+>Insert <CODE
+CLASS="PARAMETER"
+>size</CODE
+> bytes of <CODE
+CLASS="PARAMETER"
+>byte</CODE
+>.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="SECTION"
+><H2
+CLASS="SECTION"
+><A
+NAME="AEN364"
+>3.6.2. Address Definition</A
+></H2
+><P
+>The directives in this section all control the addresses of symbols
+or the assembly process itself.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>ORG <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Set the assembly address. The address must be fully resolvable on the
+first pass so no external or forward references are permitted. ORG is not
+permitted within sections when outputting to object files. For target formats
+that include address information (decb, hex, srec, and ihex), an ORG 
+directive will re-start the address sequence within the output. When using
+the raw target format, ORG is used only to determine the addresses of symbols.</P
+></DD
+><DT
+>REORG</DT
+><DD
+><P
+>Sets the assembly address to the value it had immediately prior to the
+previous ORG statement. It is used to continue assembly after some
+specification that required an additional ORG. This directive is primarily
+intended for MACRO-80c compatibility. Consider using alternatives in
+modern code.</P
+></DD
+><DT
+><CODE
+CLASS="PARAMETER"
+>sym</CODE
+> EQU <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>, <CODE
+CLASS="PARAMETER"
+>sym</CODE
+> = <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Define the value of <CODE
+CLASS="PARAMETER"
+>sym</CODE
+> to be <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>.</P
+></DD
+><DT
+><CODE
+CLASS="PARAMETER"
+>sym</CODE
+> SET <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Define the value of <CODE
+CLASS="PARAMETER"
+>sym</CODE
+> to be <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>.
+Unlike EQU, SET permits symbols to be defined multiple times as long as SET
+is used for all instances. Use of the symbol before the first SET statement
+that sets its value is undefined.</P
+></DD
+><DT
+>SETDP <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>Inform the assembler that it can assume the DP register contains
+<CODE
+CLASS="PARAMETER"
+>expr</CODE
+>. This directive is only advice to the assembler
+to determine whether an address is in the direct page and has no effect
+on the contents of the DP register. The value must be fully resolved during
+the first assembly pass because it affects the sizes of subsequent instructions.</P
+><P
+>This directive has no effect in the object file target.</P
+></DD
+><DT
+>ALIGN <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>[,<CODE
+CLASS="PARAMETER"
+>value</CODE
+>]</DT
+><DD
+><P
+>Force the current assembly address to be a multiple of
+<CODE
+CLASS="PARAMETER"
+>expr</CODE
+>.  If <CODE
+CLASS="PARAMETER"
+>value</CODE
+> is not
+specified, a series of NUL bytes is output to force the alignment, if
+required.  Otherwise, the low order 8 bits of <CODE
+CLASS="PARAMETER"
+>value</CODE
+>
+will be used as the fill.  The alignment value must be fully resolved on the
+first pass because it affects the addresses of subsquent instructions. 
+However, <CODE
+CLASS="PARAMETER"
+>value</CODE
+> may include forward references; as
+long as it resolves to a constant for the second pass, the value will be
+accepted.</P
+><P
+>Unless <CODE
+CLASS="PARAMETER"
+>value</CODE
+> is specified as something like $12,
+this directive is not suitable for inclusion in the middle of actual code. 
+The default padding value is $00 which is intended to be used within data
+blocks.  </P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="SECTION"
+><H2
+CLASS="SECTION"
+><A
+NAME="AEN415"
+>3.6.3. Conditional Assembly</A
+></H2
+><P
+>Portions of the source code can be excluded or included based on conditions
+known at assembly time. Conditionals can be nested arbitrarily deeply. The
+directives associated with conditional assembly are described in this section.</P
+><P
+>All conditionals must be fully bracketed. That is, every conditional
+statement must eventually be followed by an ENDC at the same level of nesting.</P
+><P
+>Conditional expressions are only evaluated on the first assembly pass.
+It is not possible to game the assembly process by having a conditional
+change its value between assembly passes. Due to the underlying architecture
+of LWASM, there is no possible utility to IFP1 and IFP2, nor can they, as of LWASM 3.0, actually
+be implemented meaningfully. Thus there is not and never will
+be any equivalent of IFP1 or IFP2 as provided by other assemblers. Use of those opcodes
+will throw a warning and be ignored.</P
+><P
+>It is important to note that if a conditional does not resolve to a constant
+during the first parsing pass, an error will be thrown. This is unavoidable because the assembler
+must make a decision about which source to include and which source to exclude at this stage.
+Thus, expressions that work normally elsewhere will not work for conditions.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>IFEQ <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> evaluates to zero, the conditional
+will be considered true.</P
+></DD
+><DT
+>IFNE <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>, IF <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> evaluates to a non-zero value, the conditional
+will be considered true.</P
+></DD
+><DT
+>IFGT <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> evaluates to a value greater than zero, the conditional
+will be considered true.</P
+></DD
+><DT
+>IFGE <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> evaluates to a value greater than or equal to zero, the conditional
+will be considered true.</P
+></DD
+><DT
+>IFLT <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> evaluates to a value less than zero, the conditional
+will be considered true.</P
+></DD
+><DT
+>IFLE <CODE
+CLASS="PARAMETER"
+>expr</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> evaluates to a value less than or equal to zero , the conditional
+will be considered true.</P
+></DD
+><DT
+>IFDEF <CODE
+CLASS="PARAMETER"
+>sym</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>sym</CODE
+> is defined at this point in the assembly
+process, the conditional
+will be considered true.</P
+></DD
+><DT
+>IFPRAGMA <CODE
+CLASS="PARAMETER"
+>pragma</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>pragma</CODE
+> is in effect, the condition will be considered true.</P
+></DD
+><DT
+>IFNDEF <CODE
+CLASS="PARAMETER"
+>sym</CODE
+></DT
+><DD
+><P
+>If <CODE
+CLASS="PARAMETER"
+>sym</CODE
+> is not defined at this point in the assembly
+process, the conditional
+will be considered true.</P
+></DD
+><DT
+>ELSE</DT
+><DD
+><P
+>If the preceding conditional at the same level of nesting was false, the
+statements following will be assembled. If the preceding conditional at
+the same level was true, the statements following will not be assembled.
+Note that the preceding conditional might have been another ELSE statement
+although this behaviour is not guaranteed to be supported in future versions
+of LWASM.</P
+></DD
+><DT
+>ENDC</DT
+><DD
+><P
+>This directive marks the end of a conditional construct. Every conditional
+construct must end with an ENDC directive.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="SECTION"
+><H2
+CLASS="SECTION"
+><A
+NAME="AEN486"
+>3.6.4. OS9 Target Directives</A
+></H2
+><P
+>This section includes directives that apply solely to the OS9
+target.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>OS9 <CODE
+CLASS="PARAMETER"
+>syscall</CODE
+></DT
+><DD
+><P
+>&#13;This directive generates a call to the specified system call. <CODE
+CLASS="PARAMETER"
+>syscall</CODE
+> may be an arbitrary expression.&#13;</P
+></DD
+><DT
+>MOD <CODE
+CLASS="PARAMETER"
+>size</CODE
+>,<CODE
+CLASS="PARAMETER"
+>name</CODE
+>,<CODE
+CLASS="PARAMETER"
+>type</CODE
+>,<CODE
+CLASS="PARAMETER"
+>flags</CODE
+>,<CODE
+CLASS="PARAMETER"
+>execoff</CODE
+>,<CODE
+CLASS="PARAMETER"
+>datasize</CODE
+></DT
+><DD
+><P
+>&#13;This tells LWASM that the beginning of the actual module is here. It will
+generate a module header based on the parameters specified.  It will also
+begin calcuating the module CRC.&#13;</P
+><P
+>&#13;The precise meaning of the various parameters is beyond the scope of this
+document since it is not a tutorial on OS9 module programming.&#13;</P
+></DD
+><DT
+>EMOD</DT
+><DD
+><P
+>&#13;This marks the end of a module and causes LWASM to emit the calculated CRC
+for the module.&#13;</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="SECTION"
+><H2
+CLASS="SECTION"
+><A
+NAME="AEN511"
+>3.6.5. Miscelaneous Directives</A
+></H2
+><P
+>This section includes directives that do not fit into the other
+categories.</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>INCLUDE <CODE
+CLASS="PARAMETER"
+>filename</CODE
+>, USE <CODE
+CLASS="PARAMETER"
+>filename</CODE
+></DT
+><DD
+><P
+> Include the contents of <CODE
+CLASS="PARAMETER"
+>filename</CODE
+> at
+this point in the assembly as though it were a part of the file currently
+being processed.  Note that if whitespace appears in the name of the file,
+you must enclose <CODE
+CLASS="PARAMETER"
+>filename</CODE
+> in quotes.</P
+><P
+>Note that the USE variation is provided only for compatibility with other
+assemblers. It is recommended to use the INCLUDE variation.</P
+><P
+>If <CODE
+CLASS="PARAMETER"
+>filename</CODE
+> begins with a &quot;/&quot;, it is
+interpreted as an absolute path. If it does not, the search path will be used
+to find the file. First, the directory containing the file that contains this
+directive. (Includes within an included file are relative to the included file,
+not the file that included it.) If the file is not found there, the include path
+is searched. If it is still not found, an error will be thrown. Note that the
+current directory as understood by your shell or operating system is not searched.</P
+></DD
+><DT
+>END <CODE
+CLASS="PARAMETER"
+>[expr]</CODE
+></DT
+><DD
+><P
+>This directive causes the assembler to stop assembling immediately as though
+it ran out of input. For the DECB target only, <CODE
+CLASS="PARAMETER"
+>expr</CODE
+>
+can be used to set the execution address of the resulting binary. For all
+other targets, specifying <CODE
+CLASS="PARAMETER"
+>expr</CODE
+> will cause an error.</P
+></DD
+><DT
+>ERROR <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>Causes a custom error message to be printed at this line. This will cause
+assembly to fail. This directive is most useful inside conditional constructs
+to cause assembly to fail if some condition that is known bad happens. Everything
+from the directive to the end of the line is considered the error message.</P
+></DD
+><DT
+>WARNING <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>Causes a custom warning message to be printed at this line. This will not cause
+assembly to fail. This directive is most useful inside conditional constructs
+or include files to alert the programmer to a deprecated feature being used
+or some other condition that may cause trouble later, but which may, in fact,
+not cause any trouble.</P
+></DD
+><DT
+>.MODULE <CODE
+CLASS="PARAMETER"
+>string</CODE
+></DT
+><DD
+><P
+>This directive is ignored for most output targets. If the output target
+supports encoding a module name into it, <CODE
+CLASS="PARAMETER"
+>string</CODE
+>
+will be used as the module name.</P
+><P
+>As of version 3.0, no supported output targets support this directive.</P
+></DD
+></DL
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x242.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x551.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Numbers and Expressions</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c62.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Macros</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
