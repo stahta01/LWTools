@@ -493,16 +493,16 @@ void setup_script()
 			
 			lw_free(linkscript.execsym);
 			
-			eaddr = strtol(entrysym, &ptr2, 0);
-			if (*ptr2)
+			if (entrysym[0] >= '0' && entrysym[0] <= '9')
 			{
-				linkscript.execaddr = -1;
-				linkscript.execsym = lw_strdup(entrysym);
+				eaddr = strtol(entrysym, &ptr2, 16);
+				linkscript.execaddr = eaddr;
+				linkscript.execsym = NULL;
 			}
 			else
 			{
-				linkscript.execaddr = eaddr;
-				linkscript.execsym = NULL;
+				linkscript.execaddr = -1;
+				linkscript.execsym = lw_strdup(entrysym);
 			}
 
 	}

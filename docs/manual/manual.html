@@ -229,14 +229,14 @@ HREF="#AEN942"
 ></DT
 ><DT
 >4.4. <A
-HREF="#AEN1008"
+HREF="#AEN1009"
 >Format Specific Linking Notes</A
 ></DT
 ><DD
 ><DL
 ><DT
 >4.4.1. <A
-HREF="#AEN1011"
+HREF="#AEN1012"
 >OS9 Modules</A
 ></DT
 ></DL
@@ -245,14 +245,14 @@ HREF="#AEN1011"
 ></DD
 ><DT
 >5. <A
-HREF="#AEN1023"
+HREF="#AEN1024"
 >Libraries and LWAR</A
 ></DT
 ><DD
 ><DL
 ><DT
 >5.1. <A
-HREF="#AEN1027"
+HREF="#AEN1028"
 >Command Line Options</A
 ></DT
 ></DL
@@ -274,12 +274,12 @@ CLASS="LOT"
 ></DT
 ><DT
 >6-1. <A
-HREF="#AEN1110"
+HREF="#AEN1111"
 >Object File Term Types</A
 ></DT
 ><DT
 >6-2. <A
-HREF="#AEN1140"
+HREF="#AEN1141"
 >Object File Operator Numbers</A
 ></DT
 ></DL
@@ -3168,6 +3168,9 @@ resulting file. If not specified, the entry point is assumed to be address 0
 which is probably not what you want. The default link scripts for targets
 that support this directive automatically starts at the beginning of the
 first section (usually "init" or "code") that is emitted in the binary.</P
+><P
+>Note that if you use a numeric value here, you will need to ensure
+it starts with a digit. That may mean adding a leading zero.</P
 ></DD
 ><DT
 >pad <CODE
@@ -3190,7 +3193,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN1008"
+NAME="AEN1009"
 >4.4. Format Specific Linking Notes</A
 ></H2
 ><P
@@ -3203,7 +3206,7 @@ CLASS="SECTION"
 ><HR><H3
 CLASS="SECTION"
 ><A
-NAME="AEN1011"
+NAME="AEN1012"
 >4.4.1. OS9 Modules</A
 ></H3
 ><P
@@ -3279,7 +3282,7 @@ offset from U technique.</P
 CLASS="CHAPTER"
 ><HR><H1
 ><A
-NAME="AEN1023"
+NAME="AEN1024"
 ></A
 >Chapter 5. Libraries and LWAR</H1
 ><P
@@ -3298,7 +3301,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN1027"
+NAME="AEN1028"
 >5.1. Command Line Options</A
 ></H2
 ><P
@@ -3499,7 +3502,7 @@ by a NULL expression (only an end of expression term).</P
 ><DIV
 CLASS="TABLE"
 ><A
-NAME="AEN1110"
+NAME="AEN1111"
 ></A
 ><P
 ><B
@@ -3571,7 +3574,7 @@ exported symbols or external references.</P
 ><DIV
 CLASS="TABLE"
 ><A
-NAME="AEN1140"
+NAME="AEN1141"
 ></A
 ><P
 ><B

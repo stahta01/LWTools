@@ -17,7 +17,7 @@ TITLE="Linker Operation"
 HREF="x928.html"><LINK
 REL="NEXT"
 TITLE="Format Specific Linking Notes"
-HREF="x1008.html"></HEAD
+HREF="x1009.html"></HEAD
 ><BODY
 CLASS="SECTION"
 BGCOLOR="#FFFFFF"
@@ -59,7 +59,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x1008.html"
+HREF="x1009.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -255,6 +255,9 @@ resulting file. If not specified, the entry point is assumed to be address 0
 which is probably not what you want. The default link scripts for targets
 that support this directive automatically starts at the beginning of the
 first section (usually "init" or "code") that is emitted in the binary.</P
+><P
+>Note that if you use a numeric value here, you will need to ensure
+it starts with a digit. That may mean adding a leading zero.</P
 ></DD
 ><DT
 >pad <CODE
@@ -306,7 +309,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x1008.html"
+HREF="x1009.html"
 ACCESSKEY="N"
 >Next</A
 ></TD

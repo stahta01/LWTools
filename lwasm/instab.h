@@ -49,6 +49,7 @@ enum
 	lwasm_insn_is6809conv	= 1 << 8,	/* insn is 6809 convenience only */
 	lwasm_insn_is6309conv	= 1 << 9,	/* insn is 6309 convenience only */
 	lwasm_insn_isemuext		= 1 << 10,	/* insn is an emulator extension */
+	lwasm_insn_org                  = 1 << 11,      /* insn sets assembly address */
 	lwasm_insn_normal		= 0
 };
 

@@ -67,6 +67,7 @@ void do_pass1(asmstate_t *as)
 	int opnum;
 	int lc = 1;
 	int nomacro;
+	int wasmacro;
 	
 	for (;;)
 	{
@@ -109,6 +110,7 @@ void do_pass1(asmstate_t *as)
 		}
 		debug_message(as, 75, "Read line: %s", line);
 		
+		wasmacro = as -> inmacro;
 		cl = lw_alloc(sizeof(line_t));
 		memset(cl, 0, sizeof(line_t));
 		cl -> outputl = -1;
@@ -312,7 +314,6 @@ void do_pass1(asmstate_t *as)
 			// add the line to the macro definition and continue
 			if (as -> inmacro && !(instab[opnum].flags & lwasm_insn_endm))
 			{
-				add_macro_line(as, line);
 				goto linedone;
 			}
 			
@@ -420,15 +421,16 @@ void do_pass1(asmstate_t *as)
 		}
 	
 	linedone:
+		if (as -> inmacro && wasmacro)
+			add_macro_line(as, line);
 		if (!as -> skipcond && !as -> inmacro)
 		{
 			if (cl -> sym && cl -> symset == 0)
 			{
-				debug_message(as, 50, "Register symbol %s: %s", cl -> sym, lw_expr_print(cl -> addr));
-	
 				// register symbol at line address
-				if (instab[cl -> insn].flags & lwasm_insn_setdata)
+				if ((cl -> insn >= 0) && (instab[cl -> insn].flags & lwasm_insn_setdata))
 				{
+					debug_message(as, 50, "Register symbol %s: %s (D)", cl -> sym, lw_expr_print(cl -> daddr));
 					if (!register_symbol(as, cl, cl -> sym, cl -> daddr, symbol_flag_none))
 					{
 						// symbol error
@@ -437,6 +439,7 @@ void do_pass1(asmstate_t *as)
 				}
 				else
 				{
+					debug_message(as, 50, "Register symbol %s: %s", cl -> sym, lw_expr_print(cl -> addr));
 					if (!register_symbol(as, cl, cl -> sym, cl -> addr, symbol_flag_none))
 					{
 						// symbol error

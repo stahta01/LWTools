@@ -2605,6 +2605,9 @@ which is probably not what you want. The default link scripts for targets
 that support this directive automatically starts at the beginning of the
 first section (usually "init" or "code") that is emitted in the binary.
 </para>
+
+<para>Note that if you use a numeric value here, you will need to ensure
+it starts with a digit. That may mean adding a leading zero.</para>
 </listitem>
 </varlistentry>
 

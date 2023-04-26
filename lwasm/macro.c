@@ -247,6 +247,14 @@ int expand_macro(asmstate_t *as, line_t *l, char **p, char *opc)
 				}
 				p2++;
 			}
+			else if (*p2 == '\\' && p2[1] == '#')
+			{
+				char ctcbuf[25];
+				snprintf(ctcbuf, 25, "%d", nargs);
+				for (p3 = ctcbuf; *p3; p3++)
+					macro_add_to_buff(&linebuff, &bloc, &blen, *p3);
+				p2++;
+			}
 			else if (*p2 == '\\' && isdigit(p2[1]))
 			{
 				int n;
