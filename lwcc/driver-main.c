@@ -26,7 +26,9 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#ifndef __MINGW32__
 #include <sys/wait.h>
+#endif
 #include <unistd.h>
 
 #include <lw_alloc.h>
