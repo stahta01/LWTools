@@ -21,6 +21,8 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 Resolve section and symbol addresses; handle incomplete references
 */
 
+#define __link_c_seen__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,7 +55,7 @@ void check_section_name(char *name, int *base, fileinfo_t *fn, int down)
 	int sn;
 	sectopt_t *so;
 	
-//	fprintf(stderr, "Considering sections in %s (%d) for %s\n", fn -> filename, fn -> forced, name);
+	//fprintf(stderr, "Considering sections in %s (%d) for %s\n", fn -> filename, fn -> forced, name);
 	if (fn -> forced == 0)
 		return;
 
@@ -63,13 +65,13 @@ void check_section_name(char *name, int *base, fileinfo_t *fn, int down)
 
 	for (sn = 0; sn < fn -> nsections; sn++)
 	{
-//		fprintf(stderr, "    Considering section %s\n", fn -> sections[sn].name);
+		//fprintf(stderr, "    Considering section %s\n", fn -> sections[sn].name);
 		if (!strcmp(name, (char *)(fn -> sections[sn].name)))
 		{
 			if (fn -> sections[sn].flags & SECTION_CONST)
 				continue;
 			// we have a match
-//			fprintf(stderr, "    Found\n");
+			//fprintf(stderr, "    Found\n");
 			sectlist = lw_realloc(sectlist, sizeof(struct section_list) * (nsects + 1));
 			sectlist[nsects].ptr = &(fn -> sections[sn]);
 			
@@ -94,7 +96,7 @@ void check_section_name(char *name, int *base, fileinfo_t *fn, int down)
 				so -> aftersize = 0;
 			}
 			nsects++;
-//			fprintf(stderr, "Adding section %s (%s)\n",fn -> sections[sn].name, fn -> filename);
+			//fprintf(stderr, "Adding section %s (%s) %p %d\n",fn -> sections[sn].name, fn -> filename, sectlist, nsects);
 		}
 	}
 	for (sn = 0; sn < fn -> nsubs; sn++)
@@ -221,16 +223,23 @@ void resolve_sections(void)
 			{
 				if (so -> aftersize)
 				{
-					sectlist[nsects - 1].ptr -> afterbytes = so -> afterbytes;
-					sectlist[nsects - 1].ptr -> aftersize = so -> aftersize;
-					if (growdown)
+					if (nsects == 0)
 					{
-						sectlist[nsects-1].ptr -> loadaddress -= so -> aftersize;
-						laddr -= so -> aftersize;
+						fprintf(stderr, "Warning: no instances of section listed in link script: %s\n", sname);
 					}
 					else
 					{
-						laddr += so -> aftersize;
+						sectlist[nsects - 1].ptr -> afterbytes = so -> afterbytes;
+						sectlist[nsects - 1].ptr -> aftersize = so -> aftersize;
+						if (growdown)
+						{
+							if (sectlist) sectlist[nsects-1].ptr -> loadaddress -= so -> aftersize;
+							laddr -= so -> aftersize;
+						}
+						else
+						{
+							laddr += so -> aftersize;
+						}
 					}
 				}
 			}

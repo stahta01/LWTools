@@ -446,12 +446,14 @@ void do_pass1(asmstate_t *as)
 			}
 			debug_message(as, 40, "Line address: %s", lw_expr_print(cl -> addr));
 		}
+
+nextline:
 		if (as -> skipcond || as -> inmacro || cl -> ltext[0] == 1)
 			cl -> hideline = 1;
 		if (as -> skipcond)
 			cl -> hidecond = 1;
 		
-	nextline:
+//	nextline:
 		if (sym)
 			lw_free(sym);
 		sym = NULL;

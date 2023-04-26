@@ -34,7 +34,7 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 
 // these are allowed chars BELOW 0x80 for symbols
 // first is symbol start chars, second is anywhere in symbol
-#define SSYMCHARS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_@$"
+#define SSYMCHARS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_@$."
 #define SYMCHARS SSYMCHARS ".?0123456789"
 
 typedef struct asmstate_s asmstate_t;

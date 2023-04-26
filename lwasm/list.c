@@ -231,28 +231,25 @@ void do_list(asmstate_t *as)
 		char s[64] = "";
 		if (CURPRAGMA(cl, PRAGMA_C) || CURPRAGMA(cl, PRAGMA_CD))
 		{
+			char sch = '(', ech = ')';
+			if (CURPRAGMA(cl, PRAGMA_6809))
+	 		{
+				sch = '[';
+				ech = ']';
+			}
 			if (cl->cycle_base != 0)
 			{
-				char ch = '(';
-				if (CURPRAGMA(cl, PRAGMA_6809)) ch = '[';
+				int est = cl -> cycle_flags & CYCLE_ESTIMATED;
 
 				if (CURPRAGMA(cl, PRAGMA_CD) && cl->cycle_flags & CYCLE_ADJ)
 				{
-					sprintf(s, "%c%d+%d", ch, cl->cycle_base, cl->cycle_adj);	/* detailed cycle count */
+					sprintf(s, "%c%d+%d%s%c", sch, cl->cycle_base, cl->cycle_adj, est ? "+?" : "", ech);	/* detailed cycle count */
 				}
 				else
 				{
-					sprintf(s, "%c%d", ch, cl->cycle_base + cl->cycle_adj);   /* normal cycle count*/
+					sprintf(s, "%c%d%s%c", sch, cl->cycle_base + cl->cycle_adj, est ? "+?" : "", ech);   /* normal cycle count*/
 				}
-
-				if (cl->cycle_flags & CYCLE_ESTIMATED)
-					strcat(s, "+?");
-
 				as->cycle_total += cl->cycle_base + cl->cycle_adj;
-
-				ch = ')';
-				if (CURPRAGMA(cl, PRAGMA_6809)) ch = ']';
-				sprintf(s, "%s%c", s, ch);
 			}
 		}
 

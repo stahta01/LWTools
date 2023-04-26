@@ -895,7 +895,7 @@ void write_code_obj(asmstate_t *as, FILE *of)
 		{
 			int eval;
 			lw_expr_t te;
-			line_t tl;
+			line_t tl = { 0 };
 			
 			if (ex -> se == NULL)
 				continue;
@@ -930,7 +930,7 @@ void write_code_obj(asmstate_t *as, FILE *of)
 		{
 			int offset;
 			lw_expr_t te;
-			line_t tl;
+			line_t tl = { 0 };
 			
 			tl.as = as;
 			as -> cl = &tl;

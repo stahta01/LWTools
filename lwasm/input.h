@@ -46,6 +46,6 @@ struct ifl
 	struct ifl *next;
 };
 
-struct ifl *ifl_head;
+extern struct ifl *ifl_head;
 
 #endif

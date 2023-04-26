@@ -176,6 +176,8 @@ PARSEFUNC(pseudo_parse_starpragma)
 		l->pragmas |= PRAGMA_CC;
 		as->pragmas &= ~PRAGMA_CC;
 	}
+	if (instab[l->insn].ops[3] == -2)
+		l -> pragmas |= PRAGMA_NOLIST;
 	lw_free(ps);
 }
 
