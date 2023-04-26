@@ -27,10 +27,11 @@ Contains the main defs used by the linker
 #include "expr.h"
 
 #define OUTPUT_DECB		0	// DECB multirecord format
-#define OUTPUT_RAW		1	// raw sequence of bytes
+#define OUTPUT_RAW		1	// raw sequence of bytes; BSS is just not included
 #define OUTPUT_LWEX0	2	// LWOS LWEX binary version 0
 #define OUTPUT_OS9		3	// OS9 object code module
 #define OUTPUT_SREC		4	// motorola SREC format
+#define OUTPUT_RAW2     5   // raw sequence of bytes, BSS converted to NULs
 
 typedef struct symtab_s symtab_t;
 struct symtab_s

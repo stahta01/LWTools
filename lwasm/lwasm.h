@@ -29,6 +29,7 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 #include <lw_expr.h>
 #include <lw_stringlist.h>
 #include <lw_stack.h>
+#include <lw_dict.h>
 
 #include <version.h>
 
@@ -426,6 +427,8 @@ struct asmstate_s
 	lw_stringlist_t include_list;		// include paths
 	lw_stack_t file_dir;				// stack of the "current file" dir
 	lw_stack_t includelist;
+	lw_dict_t stringvars;               // dictionary of string variables (SETSTR/INCLUDESTR)
+
 
 	structtab_t *structs;				// defined structures
 	structtab_t *cstruct;				// current structure
@@ -495,5 +498,8 @@ void dump_state(asmstate_t *as);
 /* some functions for parsing */
 /* skip to the start of the next token if the current parsing mode allows it */
 void lwasm_skip_to_next_token(line_t *cl, char **p);
+
+/* parse a generalized string enclosed in double quotes */
+char *lwasm_parse_general_string(line_t *cl, char **p);
 
 #endif /* ___lwasm_h_seen___ */

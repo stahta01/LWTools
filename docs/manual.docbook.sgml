@@ -4,7 +4,7 @@
 <title>LW Tool Chain</title>
 <author><firstname>William</firstname><surname>Astle</surname></author>
 <author><firstname>LWTools Contributors</firstname><surname></surname></author>
-<copyright><year>2009-2015</year><holder>William Astle and LWTools contributors</holder></copyright>
+<copyright><year>2009-2021</year><holder>William Astle and LWTools contributors</holder></copyright>
 </bookinfo>
 <chapter>
 
@@ -1927,6 +1927,9 @@ directive within the source code rather than on the command line or via the
 *PRAGMA directive.  This way, an error will be raised if someone tries to
 assemble the code under a different assembler.</para>
 
+<para>Note that if the "forwardrefmax" pragma is ineffect, as is the current
+default, this pragma will not behave as expected.</para>
+
 <varlistentry>
 <term>nosymbolcase</term>
 <term>symbolnocase</term>
@@ -1967,14 +1970,15 @@ the assembler will still complain about a non constant condition.</para>
 <listitem>
 
 <para>This pragma will disable forward reference optimization completely.
-Ordinarily, LWASM will attempt to select the shortest possible addressing
-mode for forward references.  However, in many source files, especially
+However, many source files, especially
 those not using the PCR relative addressing modes, this optimization is
 pointless since the assembler will almost certainly settle on a 16 bit
 offset or address.  If all variables in the direct page are defined before
 the main body of the code, the benefit of forward reference optimization
 almost certainly vanishes completely.  However, the cost of doing that
-optimization remains and can result in a very long assembly time.</para>
+optimization remains and can result in a very long assembly time. Because
+of this, "forwardrefmax" has been the default setting since version 4.14 of
+LWTOOLS. To turn it off, use "noforwardrefmax".</para>
 
 <para>Enabling this pragma will cause all forward references to use the
 maximum offset or address size, much the same has EDTASM and other pure

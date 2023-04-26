@@ -17,7 +17,7 @@ TITLE="Object Files and Sections"
 HREF="x606.html"><LINK
 REL="NEXT"
 TITLE="Convenience Instructions"
-HREF="x816.html"></HEAD
+HREF="x817.html"></HEAD
 ><BODY
 CLASS="SECTION"
 BGCOLOR="#FFFFFF"
@@ -59,7 +59,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x816.html"
+HREF="x817.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -198,7 +198,7 @@ to display 6309 timings.</P
 >These pragmas enable convenience instructions extending the 6809 and 6309
 instruction sets respectively. For more information, see 
 <A
-HREF="x816.html"
+HREF="x817.html"
 >Section 3.11</A
 >.</P
 ></DD
@@ -336,6 +336,9 @@ assemblers, it is strongly recommended that it be invoked using the PRAGMA
 directive within the source code rather than on the command line or via the
 *PRAGMA directive.  This way, an error will be raised if someone tries to
 assemble the code under a different assembler.</P
+><P
+>Note that if the "forwardrefmax" pragma is ineffect, as is the current
+default, this pragma will not behave as expected.</P
 ></DD
 ><DT
 >nosymbolcase, symbolnocase</DT
@@ -372,14 +375,15 @@ the assembler will still complain about a non constant condition.</P
 ><DD
 ><P
 >This pragma will disable forward reference optimization completely.
-Ordinarily, LWASM will attempt to select the shortest possible addressing
-mode for forward references.  However, in many source files, especially
+However, many source files, especially
 those not using the PCR relative addressing modes, this optimization is
 pointless since the assembler will almost certainly settle on a 16 bit
 offset or address.  If all variables in the direct page are defined before
 the main body of the code, the benefit of forward reference optimization
 almost certainly vanishes completely.  However, the cost of doing that
-optimization remains and can result in a very long assembly time.</P
+optimization remains and can result in a very long assembly time. Because
+of this, "forwardrefmax" has been the default setting since version 4.14 of
+LWTOOLS. To turn it off, use "noforwardrefmax".</P
 ><P
 >Enabling this pragma will cause all forward references to use the
 maximum offset or address size, much the same has EDTASM and other pure
@@ -542,7 +546,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x816.html"
+HREF="x817.html"
 ACCESSKEY="N"
 >Next</A
 ></TD

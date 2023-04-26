@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Libraries and LWAR</TITLE
+>LWLINK</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
@@ -10,11 +10,11 @@ REL="HOME"
 TITLE="LW Tool Chain"
 HREF="index.html"><LINK
 REL="PREVIOUS"
-TITLE="Format Specific Linking Notes"
-HREF="x1007.html"><LINK
+TITLE="Cycle Counts"
+HREF="x822.html"><LINK
 REL="NEXT"
-TITLE="Object Files"
-HREF="c1084.html"></HEAD
+TITLE="Linker Operation"
+HREF="x928.html"></HEAD
 ><BODY
 CLASS="CHAPTER"
 BGCOLOR="#FFFFFF"
@@ -42,7 +42,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x1007.html"
+HREF="x822.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="c1084.html"
+HREF="x928.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -69,33 +69,23 @@ WIDTH="100%"></DIV
 CLASS="CHAPTER"
 ><H1
 ><A
-NAME="AEN1022"
+NAME="AEN828"
 ></A
->Chapter 5. Libraries and LWAR</H1
+>Chapter 4. LWLINK</H1
 ><P
->LWTOOLS also includes a tool for managing libraries. These are analogous to
-the static libraries created with the "ar" tool on POSIX systems. Each library
-file contains one or more object files. The linker will treat the object
-files within a library as though they had been specified individually on
-the command line except when resolving external references. External references
-are looked up first within the object files within the library and then, if
-not found, the usual lookup based on the order the files are specified on
-the command line occurs.</P
-><P
->The tool for creating these libary files is called LWAR.</P
+>The LWTOOLS linker is called LWLINK. This chapter documents the various features
+of the linker.</P
 ><DIV
 CLASS="SECTION"
 ><H1
 CLASS="SECTION"
 ><A
-NAME="AEN1026"
->5.1. Command Line Options</A
+NAME="AEN831"
+>4.1. Command Line Options</A
 ></H1
 ><P
->The binary for LWAR is called "lwar". Note that the binary is in lower
-case. The options lwar understands are listed below. For archive manipulation
-options, the first non-option argument is the name of the archive. All other
-non-option arguments are the names of files to operate on.</P
+>The binary for LWLINK is called "lwlink". Note that the binary is in lower
+case. lwlink takes the following command line arguments.</P
 ><P
 ></P
 ><DIV
@@ -104,55 +94,133 @@ CLASS="VARIABLELIST"
 ><DT
 ><CODE
 CLASS="OPTION"
->--add</CODE
+>--decb</CODE
 >, <CODE
 CLASS="OPTION"
->-a</CODE
+>-b</CODE
 ></DT
 ><DD
 ><P
->This option specifies that an archive is going to have files added to it.
-If the archive does not already exist, it is created. New files are added
-to the end of the archive.</P
+>Selects the DECB output format target. This is equivalent to <CODE
+CLASS="OPTION"
+>--format=decb</CODE
+></P
 ></DD
 ><DT
 ><CODE
 CLASS="OPTION"
->--create</CODE
+>--output=FILE</CODE
 >, <CODE
 CLASS="OPTION"
->-c</CODE
+>-o FILE</CODE
 ></DT
 ><DD
 ><P
->This option specifies that an archive is going to be created and have files
-added to it. If the archive already exists, it is truncated.</P
+>This option specifies the name of the output file. If not specified, the
+default is <CODE
+CLASS="OPTION"
+>a.out</CODE
+>.</P
 ></DD
 ><DT
 ><CODE
 CLASS="OPTION"
->--merge</CODE
+>--format=TYPE</CODE
 >, <CODE
 CLASS="OPTION"
->-m</CODE
+>-f TYPE</CODE
 ></DT
 ><DD
 ><P
->If specified, any files specified to be added to an archive will be checked
-to see if they are archives themselves. If so, their constituent members are
-added to the archive. This is useful for avoiding archives containing archives.</P
+>This option specifies the output format. Valid values are <CODE
+CLASS="OPTION"
+>decb</CODE
+>
+and <CODE
+CLASS="OPTION"
+>raw</CODE
+></P
 ></DD
 ><DT
 ><CODE
 CLASS="OPTION"
->--list</CODE
+>--raw</CODE
 >, <CODE
 CLASS="OPTION"
->-l</CODE
+>-r</CODE
 ></DT
 ><DD
 ><P
->This will display a list of the files contained in the archive.</P
+>This option specifies the raw output format.
+It is equivalent to <CODE
+CLASS="OPTION"
+>--format=raw</CODE
+>
+and <CODE
+CLASS="OPTION"
+>-f raw</CODE
+></P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--script=FILE</CODE
+>, <CODE
+CLASS="OPTION"
+>-s</CODE
+></DT
+><DD
+><P
+>This option allows specifying a linking script to override the linker's
+built in defaults.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--section-base=SECT=BASE</CODE
+></DT
+><DD
+><P
+>Cause section SECT to load at base address BASE. This will be prepended
+to the built-in link script. It is ignored if a link script is provided.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--map=FILE</CODE
+>, <CODE
+CLASS="OPTION"
+>-m FILE</CODE
+></DT
+><DD
+><P
+>This will output a description of the link result to FILE.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--library=LIBSPEC</CODE
+>, <CODE
+CLASS="OPTION"
+>-l LIBSPEC</CODE
+></DT
+><DD
+><P
+>Load a library using the library search path. If LIBSPEC is prefixed with a
+colon (":"), then LIBSPEC is the precise filename to be searched for in the
+library path. Otherwise, LIBSPEC will have "lib" prepended and ".a" appended.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--library-path=DIR</CODE
+>, <CODE
+CLASS="OPTION"
+>-L DIR</CODE
+></DT
+><DD
+><P
+>Add DIR to the library search path.</P
 ></DD
 ><DT
 ><CODE
@@ -200,8 +268,7 @@ CLASS="OPTION"
 ></DT
 ><DD
 ><P
->This will display the version of LWLINK.
-of each.</P
+>This will display the version of LWLINK.</P
 ></DD
 ></DL
 ></DIV
@@ -223,7 +290,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x1007.html"
+HREF="x822.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -241,7 +308,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="c1084.html"
+HREF="x928.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -251,7 +318,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Format Specific Linking Notes</TD
+>Cycle Counts</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -261,7 +328,7 @@ VALIGN="top"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Object Files</TD
+>Linker Operation</TD
 ></TR
 ></TABLE
 ></DIV

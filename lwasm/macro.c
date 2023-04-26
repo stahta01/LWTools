@@ -277,8 +277,10 @@ int expand_macro(asmstate_t *as, line_t *l, char **p, char *opc)
 					n = n * 10 + n2;
 					p2++;
 				}
-				if (*p2 == '}')
-					p2++;
+				// compensate for the autoinc on p2 if no } is present
+				// to prevent overconsuming input characters
+				if (*p2 != '}')
+					p2--;
 				 
 				if (n == 0)
 				{

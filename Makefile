@@ -66,7 +66,7 @@ lwar_srcs := $(addprefix lwar/,$(lwar_srcs))
 
 lwlib_srcs := lw_alloc.c lw_realloc.c lw_free.c lw_error.c lw_expr.c \
 	lw_stack.c lw_string.c lw_stringlist.c lw_cmdline.c lw_strbuf.c \
-	lw_strpool.c
+	lw_strpool.c lw_dict.c
 lwlib_srcs := $(addprefix lwlib/,$(lwlib_srcs))
 
 lwlink_srcs := main.c lwlink.c readfiles.c expr.c script.c link.c output.c map.c
@@ -78,7 +78,7 @@ lwasm_srcs := cycle.c debug.c input.c insn_bitbit.c insn_gen.c insn_indexed.c \
 	insn_inh.c insn_logicmem.c insn_rel.c insn_rlist.c insn_rtor.c insn_tfm.c \
 	instab.c list.c lwasm.c macro.c main.c os9.c output.c pass1.c pass2.c \
 	pass3.c pass4.c pass5.c pass6.c pass7.c pragma.c pseudo.c section.c \
-	struct.c symbol.c symdump.c unicorns.c
+	strings.c struct.c symbol.c symdump.c unicorns.c
 lwasm_srcs := $(addprefix lwasm/,$(lwasm_srcs))
 
 lwasm_objs := $(lwasm_srcs:.c=.o)

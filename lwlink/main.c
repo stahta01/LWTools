@@ -84,6 +84,8 @@ static int parse_opts(int key, char *arg, void *state)
 			outformat = OUTPUT_DECB;
 		else if (!strcasecmp(arg, "raw"))
 			outformat = OUTPUT_RAW;
+		else if (!strcasecmp(arg, "raw2"))
+			outformat = OUTPUT_RAW2;
 		else if (!strcasecmp(arg, "lwex0") || !strcasecmp(arg, "lwex"))
 			outformat = OUTPUT_LWEX0;
 		else if (!strcasecmp(arg, "os9"))

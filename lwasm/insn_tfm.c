@@ -149,7 +149,7 @@ PARSEFUNC(insn_parse_tfmrtor)
 			r0 = r1 = 0;
 		}
 	}
-	l -> len = instab[l -> insn].ops[0] + 1;
+	l -> len = OPLEN(instab[l -> insn].ops[0]) + 1;
 	l -> pb = (r0 << 4) | r1;
 }
 

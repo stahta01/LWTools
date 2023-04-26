@@ -320,6 +320,10 @@ PARSEFUNC(pseudo_parse_includebin);
 #define pseudo_resolve_includebin NULL
 EMITFUNC(pseudo_emit_includebin);
 
+PARSEFUNC(pseudo_parse_includestr);
+#define pseudo_resolve_includestr NULL
+#define pseudo_emit_includestr NULL
+
 PARSEFUNC(pseudo_parse_include);
 #define pseudo_resolve_include NULL
 #define pseudo_emit_include NULL
@@ -339,6 +343,10 @@ PARSEFUNC(pseudo_parse_struct);
 PARSEFUNC(pseudo_parse_endstruct);
 #define pseudo_resolve_endstruct NULL
 #define pseudo_emit_endstruct NULL
+
+PARSEFUNC(pseudo_parse_setstr);
+#define pseudo_resolve_setstr NULL
+#define pseudo_emit_setstr NULL
 
 // convenience ops
 PARSEFUNC(insn_parse_conv);
@@ -669,6 +677,7 @@ instab_t instab[] =
 	{ "end", 		{	-1, 	-1, 	-1, 	-1 },	pseudo_parse_end,		pseudo_resolve_end,				pseudo_emit_end,			lwasm_insn_normal},
 
 	{ "includebin", {	-1, 	-1, 	-1, 	-1},	pseudo_parse_includebin,pseudo_resolve_includebin,		pseudo_emit_includebin,		lwasm_insn_normal},
+	{ "includestr", {   -1,     -1,     -1,     -1},    pseudo_parse_includestr,pseudo_resolve_includestr,      pseudo_emit_includestr,     lwasm_insn_normal},
 	{ "include",	{	-1, 	-1, 	-1, 	-1 },	pseudo_parse_include,	pseudo_resolve_include,			pseudo_emit_include,		lwasm_insn_normal},
 	{ "incl",		{	-1, 	-1, 	-1, 	-1 },	pseudo_parse_include,	pseudo_resolve_include,			pseudo_emit_include,		lwasm_insn_normal},
 	{ "use",		{	-1, 	-1, 	-1, 	-1 },	pseudo_parse_include,	pseudo_resolve_include,			pseudo_emit_include,		lwasm_insn_normal},
@@ -707,6 +716,7 @@ instab_t instab[] =
 	{ "endm",		{	-1, 	-1, 	-1, 	-1},	pseudo_parse_endm,		pseudo_resolve_endm,			pseudo_emit_endm,			lwasm_insn_cond | lwasm_insn_setsym | lwasm_insn_endm},
 
 	{ "setdp", 		{	-1, 	-1, 	-1, 	-1},	pseudo_parse_setdp,		pseudo_resolve_setdp,			pseudo_emit_setdp,			lwasm_insn_normal},
+	{ "setstr",     {   -1,     -1,     -1,     -1},    pseudo_parse_setstr,    pseudo_resolve_setstr,          pseudo_emit_setstr,         lwasm_insn_normal},
 	{ "set",		{	-1, 	-1, 	-1, 	-1},	pseudo_parse_set,		pseudo_resolve_set,				pseudo_emit_set,			lwasm_insn_setsym},
 
 

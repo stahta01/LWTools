@@ -369,7 +369,7 @@ static int cstringlen(asmstate_t *as, line_t *ln, char **p, char delim)
 						wch = **p - 0x30;
 						if (wch > 9)
 							wch -= 7;
-						if (wch > 9)
+						if (wch > 15)
 							wch -= 32;
 						(*p)++;
 					}
@@ -379,7 +379,7 @@ static int cstringlen(asmstate_t *as, line_t *ln, char **p, char delim)
 						i = **p - 0x30;
 						if (i > 9)
 							i -= 7;
-						if (i > 9)
+						if (i > 15)
 							i -= 32;
 						wch = wch * 16 + i;
 					}
@@ -1583,6 +1583,41 @@ PARSEFUNC(pseudo_parse_include)
 	lw_free(fn);
 }
 
+PARSEFUNC(pseudo_parse_includestr)
+{
+	char *str;
+	char buf[110];
+
+	l -> len = 0;
+
+	if (!**p)
+	{
+		// no operand - include nothing
+		return;
+	}
+
+	str = lwasm_parse_general_string(l, p);
+	if (!str)
+	{
+		// string parsing failed
+		return;
+	}
+	if (*str == '\0')
+	{
+		// empty string; don't do anything
+		lw_free(str);
+		return;
+	}
+
+	/* add a book-keeping entry for line numbers */
+	snprintf(buf, 100, "\001\001SETLINENO %d\n", l -> lineno + 1);
+	input_openstring(as, "INTERNAL", buf);
+
+	/* add the constructed string to the input */
+	input_openstring(as, "INCLUDESTR", str);
+	lw_free(str);
+}
+
 PARSEFUNC(pseudo_parse_align)
 {
 	lw_expr_t e;
@@ -1804,8 +1839,10 @@ char *strcond_parsearg(char **p)
 		
 		if (tstr[i])
 			i++;
+		if (tstr[i] == ',')
+			i++;
 		
-		*p += i;
+		*p += i + 1;
 		return arg;
 	}
 	else if (*tstr == '\'')
@@ -1821,8 +1858,9 @@ char *strcond_parsearg(char **p)
 		
 		if (tstr[i])
 			i++;
-		
-		*p += i;
+		if (tstr[i] == ',')
+			i++;
+		*p += i + 1;
 		return arg;
 	}
 	else
@@ -1852,7 +1890,7 @@ int strcond_eq(char **p)
 		
 	arg1 = strcond_parsearg(p);
 	arg2 = strcond_parsearg(p);
-	
+
 	if (strcmp(arg1, arg2) == 0)
 		c = 1;
 	lw_free(arg1);

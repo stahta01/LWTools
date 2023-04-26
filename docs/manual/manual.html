@@ -40,7 +40,7 @@ NAME="AEN7"
 >LWTools Contributors </H3
 ><P
 CLASS="COPYRIGHT"
->Copyright &copy; 2009-2015 William Astle and LWTools contributors</P
+>Copyright &copy; 2009-2021 William Astle and LWTools contributors</P
 ><HR></DIV
 ><DIV
 CLASS="TOC"
@@ -200,43 +200,43 @@ HREF="#CONVINST"
 ></DT
 ><DT
 >3.12. <A
-HREF="#AEN821"
+HREF="#AEN822"
 >Cycle Counts</A
 ></DT
 ></DL
 ></DD
 ><DT
 >4. <A
-HREF="#AEN827"
+HREF="#AEN828"
 >LWLINK</A
 ></DT
 ><DD
 ><DL
 ><DT
 >4.1. <A
-HREF="#AEN830"
+HREF="#AEN831"
 >Command Line Options</A
 ></DT
 ><DT
 >4.2. <A
-HREF="#AEN927"
+HREF="#AEN928"
 >Linker Operation</A
 ></DT
 ><DT
 >4.3. <A
-HREF="#AEN941"
+HREF="#AEN942"
 >Linking Scripts</A
 ></DT
 ><DT
 >4.4. <A
-HREF="#AEN1007"
+HREF="#AEN1008"
 >Format Specific Linking Notes</A
 ></DT
 ><DD
 ><DL
 ><DT
 >4.4.1. <A
-HREF="#AEN1010"
+HREF="#AEN1011"
 >OS9 Modules</A
 ></DT
 ></DL
@@ -245,14 +245,14 @@ HREF="#AEN1010"
 ></DD
 ><DT
 >5. <A
-HREF="#AEN1022"
+HREF="#AEN1023"
 >Libraries and LWAR</A
 ></DT
 ><DD
 ><DL
 ><DT
 >5.1. <A
-HREF="#AEN1026"
+HREF="#AEN1027"
 >Command Line Options</A
 ></DT
 ></DL
@@ -274,12 +274,12 @@ CLASS="LOT"
 ></DT
 ><DT
 >6-1. <A
-HREF="#AEN1109"
+HREF="#AEN1110"
 >Object File Term Types</A
 ></DT
 ><DT
 >6-2. <A
-HREF="#AEN1139"
+HREF="#AEN1140"
 >Object File Operator Numbers</A
 ></DT
 ></DL
@@ -2476,6 +2476,9 @@ assemblers, it is strongly recommended that it be invoked using the PRAGMA
 directive within the source code rather than on the command line or via the
 *PRAGMA directive.  This way, an error will be raised if someone tries to
 assemble the code under a different assembler.</P
+><P
+>Note that if the "forwardrefmax" pragma is ineffect, as is the current
+default, this pragma will not behave as expected.</P
 ></DD
 ><DT
 >nosymbolcase, symbolnocase</DT
@@ -2512,14 +2515,15 @@ the assembler will still complain about a non constant condition.</P
 ><DD
 ><P
 >This pragma will disable forward reference optimization completely.
-Ordinarily, LWASM will attempt to select the shortest possible addressing
-mode for forward references.  However, in many source files, especially
+However, many source files, especially
 those not using the PCR relative addressing modes, this optimization is
 pointless since the assembler will almost certainly settle on a 16 bit
 offset or address.  If all variables in the direct page are defined before
 the main body of the code, the benefit of forward reference optimization
 almost certainly vanishes completely.  However, the cost of doing that
-optimization remains and can result in a very long assembly time.</P
+optimization remains and can result in a very long assembly time. Because
+of this, "forwardrefmax" has been the default setting since version 4.14 of
+LWTOOLS. To turn it off, use "noforwardrefmax".</P
 ><P
 >Enabling this pragma will cause all forward references to use the
 maximum offset or address size, much the same has EDTASM and other pure
@@ -2678,7 +2682,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN821"
+NAME="AEN822"
 >3.12. Cycle Counts</A
 ></H2
 ><P
@@ -2717,7 +2721,7 @@ CLASS="PROGRAMLISTING"
 CLASS="CHAPTER"
 ><HR><H1
 ><A
-NAME="AEN827"
+NAME="AEN828"
 ></A
 >Chapter 4. LWLINK</H1
 ><P
@@ -2728,7 +2732,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN830"
+NAME="AEN831"
 >4.1. Command Line Options</A
 ></H2
 ><P
@@ -2926,7 +2930,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN927"
+NAME="AEN928"
 >4.2. Linker Operation</A
 ></H2
 ><P
@@ -2982,7 +2986,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN941"
+NAME="AEN942"
 >4.3. Linking Scripts</A
 ></H2
 ><P
@@ -3186,7 +3190,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN1007"
+NAME="AEN1008"
 >4.4. Format Specific Linking Notes</A
 ></H2
 ><P
@@ -3199,7 +3203,7 @@ CLASS="SECTION"
 ><HR><H3
 CLASS="SECTION"
 ><A
-NAME="AEN1010"
+NAME="AEN1011"
 >4.4.1. OS9 Modules</A
 ></H3
 ><P
@@ -3275,7 +3279,7 @@ offset from U technique.</P
 CLASS="CHAPTER"
 ><HR><H1
 ><A
-NAME="AEN1022"
+NAME="AEN1023"
 ></A
 >Chapter 5. Libraries and LWAR</H1
 ><P
@@ -3294,7 +3298,7 @@ CLASS="SECTION"
 ><HR><H2
 CLASS="SECTION"
 ><A
-NAME="AEN1026"
+NAME="AEN1027"
 >5.1. Command Line Options</A
 ></H2
 ><P
@@ -3495,7 +3499,7 @@ by a NULL expression (only an end of expression term).</P
 ><DIV
 CLASS="TABLE"
 ><A
-NAME="AEN1109"
+NAME="AEN1110"
 ></A
 ><P
 ><B
@@ -3567,7 +3571,7 @@ exported symbols or external references.</P
 ><DIV
 CLASS="TABLE"
 ><A
-NAME="AEN1139"
+NAME="AEN1140"
 ></A
 ><P
 ><B

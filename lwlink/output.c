@@ -36,6 +36,7 @@ Actually output the binary
 void do_output_os9(FILE *of);
 void do_output_decb(FILE *of);
 void do_output_raw(FILE *of);
+void do_output_raw2(FILE *of);
 void do_output_lwex0(FILE *of);
 void do_output_srec(FILE *of);
 
@@ -59,6 +60,10 @@ void do_output(void)
 	
 	case OUTPUT_RAW:
 		do_output_raw(of);
+		break;
+
+	case OUTPUT_RAW2:
+		do_output_raw2(of);
 		break;
 
 	case OUTPUT_LWEX0:
@@ -145,8 +150,25 @@ void do_output_decb(FILE *of)
 
 void do_output_raw(FILE *of)
 {
+	int sn;
+
+	
+	for (sn = 0; sn < nsects; sn++)
+	{
+		if (sectlist[sn].ptr -> flags & SECTION_BSS)
+		{
+			// no output for a BSS section
+			continue;
+		}
+		writebytes(sectlist[sn].ptr -> code, 1, sectlist[sn].ptr -> codesize, of);
+	}
+}
+
+void do_output_raw2(FILE *of)
+{
 	int nskips = 0;		// used to output blanks for BSS inline
 	int sn;
+
 	
 	for (sn = 0; sn < nsects; sn++)
 	{
