@@ -358,7 +358,7 @@ instab_t instab[] =
 
 	// 6309 convenience instructions
 	{ "asrq",		{	0x1047,	0x1056,	-1,		 4	},	insn_parse_conv,		insn_resolve_conv,				insn_emit_conv,				lwasm_insn_is6309conv },
-	{ "clrq",		{	0x4f5f,	0x1F06,	-1,		 6	},	insn_parse_conv,		insn_resolve_conv,				insn_emit_conv,				lwasm_insn_is6309conv },
+	{ "clrq",		{	0x104f,	0x105f,	-1,		 4 	},	insn_parse_conv,		insn_resolve_conv,				insn_emit_conv,				lwasm_insn_is6309conv },
 	{ "comq",		{	0x1043,	0x1053,	-1,		 4	},	insn_parse_conv,		insn_resolve_conv,				insn_emit_conv,				lwasm_insn_is6309conv },
 	{ "lsle",		{	0x1030,	0xee,	-1,		 4	},	insn_parse_conv,		insn_resolve_conv,				insn_emit_conv,				lwasm_insn_is6309conv },
 	{ "lslf",		{	0x1030,	0xff,	-1,		 4	},	insn_parse_conv,		insn_resolve_conv,				insn_emit_conv,				lwasm_insn_is6309conv },

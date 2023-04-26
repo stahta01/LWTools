@@ -565,9 +565,9 @@ static cycletable_t cycletable[] =
 
 	{ 0x1f, 6, 4, 0 },					// TFR
 
-	{ 0x0b, 6, 6, CYCLE_ESTIMATED },	// TIM
-	{ 0x6b, 7, 7, CYCLE_ADJ | CYCLE_ESTIMATED },
-	{ 0x7b, 5, 5, CYCLE_ESTIMATED },
+	{ 0x0b, 6, 6, 0 },				// TIM
+	{ 0x6b, 7, 7, CYCLE_ADJ },
+	{ 0x7b, 7, 7, 0 },
 
 	{ 0x1138, 6, 6, CYCLE_ESTIMATED },	// TFM
 	{ 0x1139, 6, 6, CYCLE_ESTIMATED },	
@@ -623,6 +623,28 @@ int lwasm_cycle_calc_ind(line_t *cl)
 
 	if ((pb & 0x80) == 0) /* 5 bit offset */
 		return 1;
+
+	// These need special handling because the *register* bits determine the specific operation (and, thus, cycle counts)
+	if (!CURPRAGMA(cl, PRAGMA_6809))
+	{
+		switch (pb)
+		{
+		case 0x8f:  // ,W
+			return 0;
+		case 0xaf:  // n,W (16 bit)
+			return 2;
+		case 0xcf:  // ,W++
+		case 0xef:  // ,--W
+			return 1;
+		case 0x90:  // [,W]
+			return 3;
+		case 0xb0: // [n,W] (16 bit)
+			return 5;
+		case 0xd0: // [,W++]
+		case 0xf0: // [,--W]
+			return 4;
+		}
+	}
 
 	if (pb & 0x10) /* indirect */
 		return CURPRAGMA(cl, PRAGMA_6809) ? indtab[pb & 0xf].cycles_6809_indirect : indtab[pb & 0xf].cycles_6309_indirect;

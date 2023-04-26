@@ -49,6 +49,7 @@ static struct lw_cmdline_options options[] =
 	{ "list-nofiles", 0x104, 0,			0,							"Omit file names in list output"},
 	{ "symbols",	's',	0,			lw_cmdline_opt_optional,	"Generate symbol list in listing, no effect without --list"},
 	{ "symbols-nolocals", 0x103,	0,	lw_cmdline_opt_optional,	"Same as --symbols but with local labels ignored"},
+	{ "symbol-dump", 0x106, "FILE",		lw_cmdline_opt_optional,	"Dump global symbol table in assembly format" },
 	{ "tabs",		't',	"WIDTH",	0,							"Set tab spacing in listing (0=don't expand tabs)" },
 	{ "map",		'm',	"FILE",		lw_cmdline_opt_optional,	"Generate map [to FILE]"},
 	{ "decb",		'b',	0,			0,							"Generate DECB .bin format output, equivalent of --format=decb"},
@@ -64,6 +65,7 @@ static struct lw_cmdline_options options[] =
 	{ "preprocess",	'P',	0,			0,							"Preprocess macros and conditionals and output revised source to stdout" },
 	{ "unicorns",	0x142,	0,			0,							"Add sooper sekrit sauce"},
 	{ "6800compat",	0x200,	0,			0,							"Enable 6800 compatibility instructions, equivalent to --pragma=6800compat" },
+	{ "no-output",  0x105,  0,          0,                          "Inhibit creation of output file" },
 	{ 0 }
 };
 
@@ -103,6 +105,21 @@ static int parse_opts(int key, char *arg, void *state)
 		if (as -> output_file)
 			lw_free(as -> output_file);
 		as -> output_file = lw_strdup(arg);
+		as -> flags &= ~FLAG_NOOUT;
+		break;
+
+	case 0x105:
+		as -> flags |= FLAG_NOOUT;
+		break;
+
+	case 0x106:
+		if (as -> symbol_dump_file)
+			lw_free(as -> symbol_dump_file);
+		if (!arg)
+			as -> symbol_dump_file = lw_strdup("-");
+		else
+			as -> symbol_dump_file = lw_strdup(arg);
+		as -> flags |= FLAG_SYMDUMP;
 		break;
 
 	case 'd':
@@ -268,6 +285,7 @@ void do_pass5(asmstate_t *as);
 void do_pass6(asmstate_t *as);
 void do_pass7(asmstate_t *as);
 void do_output(asmstate_t *as);
+void do_symdump(asmstate_t *as);
 void do_list(asmstate_t *as);
 void do_map(asmstate_t *as);
 lw_expr_t lwasm_evaluate_special(int t, void *ptr, void *priv);
@@ -371,7 +389,7 @@ int main(int argc, char **argv)
 			lw_free(n);
 		}
 	}	
-	else
+	else if ((asmstate.flags & FLAG_NOOUT) == 0)
 	{
 		debug_message(&asmstate, 50, "Doing output");
 		do_output(&asmstate);
@@ -384,6 +402,7 @@ int main(int argc, char **argv)
 		debug_message(&asmstate, 50, "Invoking unicorns");
 		lwasm_do_unicorns(&asmstate);
 	}
+	do_symdump(&asmstate);
 	do_list(&asmstate);
 	do_map(&asmstate);
 

@@ -800,7 +800,8 @@ void insn_emit_indexed_aux(asmstate_t *as, line_t *l)
 			lwasm_register_error(as, l, E_EXPRESSION_NOT_RESOLVED);
 		}
 	}
-	else if (l -> lint == 2 && CURPRAGMA(l, PRAGMA_OPERANDSIZE) && (l -> pb != 0xAF && l -> pb != 0xB0))
+	// note that extended indirect (post byte 0x9f) can only be 16 bits
+	else if (l -> lint == 2 && CURPRAGMA(l, PRAGMA_OPERANDSIZE) && (l -> pb != 0xAF && l -> pb != 0xB0 && l -> pb != 0x9f))
 	{
 		int offs;
 		e = lwasm_fetch_expr(l, 0);

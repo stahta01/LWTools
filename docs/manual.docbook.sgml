@@ -354,6 +354,21 @@ is specified, the list will not include the symbol table.
 </varlistentry>
 
 <varlistentry>
+<term><option>--symbol-dump[=file]</option></term>
+<listitem>
+<para>
+Cause LWASM to output the global symbol table in assembly source format. If
+<option>file</option> is specified, the table output will go to the specified
+file. Otherwise, it will go to the standard output stream. Local symbols will
+not be included. Incomplete symbols will be defined to zero with a comment
+indicating incompleteness. Symbols defined with SET will also be listed using
+SET in the symbol dump. However, if the symbol is defined multiple times, the
+order of the definitions in the dump file is undefined.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
 <term><option>--symbols</option></term>
 <term><option>-s</option></term>
 <listitem>
@@ -401,6 +416,13 @@ Select the proprietary object file format as the output target.
 This option specifies the name of the output file. If not specified, the
 default is <option>a.out</option>.
 </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--no-output</option></term>
+<listitem>
+<para>Do assembly as usual but suppress generation of the output file.</para>
 </listitem>
 </varlistentry>
 

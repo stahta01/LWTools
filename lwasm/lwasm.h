@@ -75,6 +75,8 @@ enum lwasm_flags_e
 	FLAG_UNICORNS = 0x0010,
 	FLAG_MAP = 0x0020,
 	FLAG_SYMBOLS_NOLOCALS = 0x0040,
+	FLAG_NOOUT = 0x80,
+	FLAG_SYMDUMP = 0x100,
 	FLAG_NONE = 0
 };
 
@@ -415,6 +417,7 @@ struct asmstate_s
 	exportlist_t *exportlist;			// list of exported symbols
 	importlist_t *importlist;			// list of imported symbols
 	char *list_file;					// name of file to list to
+	char *symbol_dump_file;				// name of file to dump symbol table to
 	int tabwidth;						// tab width in list file
 	char *map_file;						// name of map file
 	char *output_file;					// output file name	

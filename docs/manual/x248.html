@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Convenience Instructions</TITLE
+>Symbols</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
@@ -13,11 +13,11 @@ REL="UP"
 TITLE="LWASM"
 HREF="c62.html"><LINK
 REL="PREVIOUS"
-TITLE="Assembler Modes and Pragmas"
-HREF="x659.html"><LINK
+TITLE="Source Format"
+HREF="x238.html"><LINK
 REL="NEXT"
-TITLE="Cycle Counts"
-HREF="x810.html"></HEAD
+TITLE="Numbers and Expressions"
+HREF="x253.html"></HEAD
 ><BODY
 CLASS="SECTION"
 BGCOLOR="#FFFFFF"
@@ -45,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x659.html"
+HREF="x238.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -59,7 +59,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x810.html"
+HREF="x253.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -73,25 +73,28 @@ CLASS="SECTION"
 ><H1
 CLASS="SECTION"
 ><A
-NAME="CONVINST"
->3.11. Convenience Instructions</A
+NAME="AEN248"
+>3.4. Symbols</A
 ></H1
 ><P
->&#13;Similar to the 6800 compatibility instructions (pragma 6800compat) these
-pragma 6809conv and pragma 6309conv enable convenience extensions to the
-6809 and 6309 instruction set.  Originally intended for compatibility with
-the MACRO-80c assembler, these have proven useful in large codebases that
-target both the 6809 and the 6309.</P
+>Symbols have no length restriction. They may contain letters, numbers, dots,
+dollar signs, and underscores. They must start with a letter, dot, or
+underscore.</P
 ><P
->&#13;The 6809 extensions are straightforward with the exception of "TSTD" which
-assembles as "STD -2,S".  A benefit of using these is they will "just work"
-and take on their 6309 equivalent when you enable 6309 assembly mode. 
-Supported instructions: ASRD, CLRD,   COMD,   LSLD,   LSRD,   NEGD,   TSTD.</P
+>LWASM also supports the concept of a local symbol. A local symbol is one
+which contains either a "?" or a "@", which can appear anywhere in the symbol.
+The scope of a local symbol is determined by a number of factors. First,
+each included file gets its own local symbol scope. A blank line will also
+be considered a local scope barrier. Macros each have their own local symbol
+scope as well (which has a side effect that you cannot use a local symbol
+as an argument to a macro). There are other factors as well. In general,
+a local symbol is restricted to the block of code it is defined within.</P
 ><P
->&#13;6309 extensions are based on common patterns described by Chris Burke and
-Darren Atkinson in their 6309 documentation and include the following
-instructions: ASRQ,   CLRQ,   COMQ,   LSLE,   LSLF,   LSLQ,   LSRQ,   NEGE,
-   NEGF,   NEGW,   NEGQ,   TSTQ.</P
+>By default, unless assembling to the os9 target, a "$" in the symbol will
+also make it local.  This can be controlled by the "dollarlocal" and
+"nodollarlocal" pragmas.  In the absence of a pragma to the contrary, for
+the os9 target, a "$" in the symbol will not make it considered local while
+for all other targets it will.</P
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -109,7 +112,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x659.html"
+HREF="x238.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -127,7 +130,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x810.html"
+HREF="x253.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -137,7 +140,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Assembler Modes and Pragmas</TD
+>Source Format</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -151,7 +154,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Cycle Counts</TD
+>Numbers and Expressions</TD
 ></TR
 ></TABLE
 ></DIV

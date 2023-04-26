@@ -22,6 +22,6 @@ this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef lw_version_h_seen___
 #define lw_version_h_seen___
 
-#define PACKAGE_STRING "lwtools 4.16"
+#define PACKAGE_STRING "lwtools 4.17"
 
 #endif /* lw_version_h_seen___ */

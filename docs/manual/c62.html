@@ -14,7 +14,7 @@ TITLE="Object Files"
 HREF="x54.html"><LINK
 REL="NEXT"
 TITLE="Dialects"
-HREF="x218.html"></HEAD
+HREF="x229.html"></HEAD
 ><BODY
 CLASS="CHAPTER"
 BGCOLOR="#FFFFFF"
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x218.html"
+HREF="x229.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -218,6 +218,24 @@ is specified, the list will not include the symbol table.</P
 ><DT
 ><CODE
 CLASS="OPTION"
+>--symbol-dump[=file]</CODE
+></DT
+><DD
+><P
+>Cause LWASM to output the global symbol table in assembly source format. If
+<CODE
+CLASS="OPTION"
+>file</CODE
+> is specified, the table output will go to the specified
+file. Otherwise, it will go to the standard output stream. Local symbols will
+not be included. Incomplete symbols will be defined to zero with a comment
+indicating incompleteness. Symbols defined with SET will also be listed using
+SET in the symbol dump. However, if the symbol is defined multiple times, the
+order of the definitions in the dump file is undefined.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
 >--symbols</CODE
 >, <CODE
 CLASS="OPTION"
@@ -273,6 +291,15 @@ default is <CODE
 CLASS="OPTION"
 >a.out</CODE
 >.</P
+></DD
+><DT
+><CODE
+CLASS="OPTION"
+>--no-output</CODE
+></DT
+><DD
+><P
+>Do assembly as usual but suppress generation of the output file.</P
 ></DD
 ><DT
 ><CODE
@@ -434,7 +461,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x218.html"
+HREF="x229.html"
 ACCESSKEY="N"
 >Next</A
 ></TD

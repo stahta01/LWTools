@@ -322,7 +322,8 @@ void insn_emit_gen_aux(asmstate_t *as, line_t *l, int extra)
 			}
 			else if (l -> lint == 2 && lw_expr_istype(e, lw_expr_type_int) && CURPRAGMA(l, PRAGMA_OPERANDSIZE))
 			{
-				if (l -> pb != 0xAF && l -> pb != 0xB0)
+				// note that W relative and extended indirect must be 16 bits
+				if (l -> pb != 0xAF && l -> pb != 0xB0 && l -> pb != 0x9f)
 				{
 					if ((i >= -128 && i <= 127) || i >= 0xFF80)
 					{

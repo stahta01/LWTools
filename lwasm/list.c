@@ -324,7 +324,7 @@ void do_list(asmstate_t *as)
 		lw_free(obytes);
 		obytes = NULL;
 	}
-	if ((as -> flags & FLAG_SYMBOLS))
+	if ((as -> flags & FLAG_SYMBOLS) && of)
 		list_symbols(as, of);
 	if (of && of != stdout)
 		fclose(of);
